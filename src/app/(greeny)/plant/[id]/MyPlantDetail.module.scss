@@ -166,7 +166,7 @@
     padding: 1.8rem 0;
     font-size: 1.6rem;
     border-radius: 1rem;
-    background-color: #a7c4a0;
+    background-color: var(--color-primary-disabled);
     box-sizing: border-box;
 
     @include mobile {
@@ -442,7 +442,7 @@
   width: 100%;
   text-align: center;
   padding: 1rem;
-  background-color: #a7c4a0;
+  background-color: var(--color-primary-disabled);
   border-radius: 10rem;
   color: var(--color-white);
   transition: all 0.3s;
@@ -450,6 +450,6 @@
 
 .unFollowBtn {
   background-color: var(--color-white);
-  color: #a7c4a0;
-  border: 0.1rem solid #a7c4a0;
+  color: var(--color-primary-disabled);
+  border: 0.1rem solid var(--color-primary-disabled);
 }

@@ -14,7 +14,6 @@ export async function deleteBookmark(bookmarkId: number, pathToRevalidate: strin
       Authorization: `Bearer ${session?.accessToken}`,
     },
   });
-  // revalidatePath(`/profile/${_id}/user`);
   revalidatePath(pathToRevalidate);
   return await res.json();
 }

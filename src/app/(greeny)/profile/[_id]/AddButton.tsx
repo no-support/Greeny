@@ -2,7 +2,6 @@
 import { useTransition } from 'react';
 import { addUser } from '@/app/api/actions/followAction';
 import Button from '@/components/button/Button';
-import { redirect } from 'next/navigation';
 
 export default function AddButton({ _id }: { _id: number }) {
   const [isPending, startTransition] = useTransition();
@@ -27,8 +26,8 @@ export default function AddButton({ _id }: { _id: number }) {
 
   const style = {
     padding: ' 0.6rem 1.7rem',
-    backgroundColor: ' #a7c4a0',
-    border: ' 0.1rem solid #a7c4a0',
+    backgroundColor: 'var(--color-primary-disabled)',
+    border: ' 0.1rem solid var(--color-primary-disabled)',
     borderRadius: ' 0.6rem',
     color: 'var(--color-white)',
     fontSize: ' 1rem',

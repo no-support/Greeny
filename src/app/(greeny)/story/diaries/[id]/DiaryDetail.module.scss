@@ -65,15 +65,15 @@
 
       .followBtn {
         padding: 0.6rem 1.7rem;
-        background-color: #a7c4a0;
-        border: 0.1rem solid #a7c4a0;
+        background-color: var(--color-primary-disabled);
+        border: 0.1rem solid var(--color-primary-disabled);
         border-radius: 0.6rem;
         color: var(--color-white);
         font-size: 1rem;
       }
       .followBtn.selected {
         background-color: var(--color-white);
-        color: #a7c4a0;
+        color: var(--color-primary-disabled);
       }
     }
   }
