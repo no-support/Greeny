@@ -39,3 +39,5 @@ env.d.ts
 # typescript
 *.tsbuildinfo
 
+
+*storybook.log
