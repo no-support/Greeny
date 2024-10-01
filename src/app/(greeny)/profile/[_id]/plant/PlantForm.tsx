@@ -4,7 +4,7 @@ import { PlantBookmark } from '@/types/bookmark';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Input from '@/components/Input';
+import Input from '@/components/input/Input';
 
 interface FormValues {
   name: string;

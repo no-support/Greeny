@@ -1,4 +1,5 @@
 'use client';
+import Button from '../button/Button';
 import styles from './Tab.module.scss';
 import { useState } from 'react';
 
@@ -24,12 +25,12 @@ export default function Tab({ first, second, firstSrOnly, secondSrOnly }: TabPro
     <div className={styles.tab_wrapper}>
       {/* 탭 버튼 */}
       <div className={styles.plant_tabMenu}>
-        <button onClick={() => toggleTab(firstSrOnly)} className={`${styles.plant_diary} ${isFirstTab ? styles.is_active : ''}`}>
+        <Button onClick={() => toggleTab(firstSrOnly)} className={`${styles.plant_diary} ${isFirstTab ? styles.is_active : ''}`}>
           <span className="hidden">{firstSrOnly}</span>
-        </button>
-        <button onClick={() => toggleTab(secondSrOnly)} className={`${styles.plant_info} ${!isFirstTab ? styles.is_active : ''}`}>
+        </Button>
+        <Button onClick={() => toggleTab(secondSrOnly)} className={`${styles.plant_info} ${!isFirstTab ? styles.is_active : ''}`}>
           <span className="hidden">{secondSrOnly}</span>
-        </button>
+        </Button>
       </div>
 
       {/* 탭 내용 */}

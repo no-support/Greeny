@@ -1,7 +1,7 @@
 import styles from '../page.module.scss';
 import { auth } from '@/auth';
-import { CoreErrorRes, List, SingleItem, MultiItem } from '@/types/response';
-import Tab from '@components/Tab';
+import { CoreErrorRes, List, SingleItem } from '@/types/response';
+import Tab from '@/components/tab/Tab';
 import { UserInfo } from '@/types/user';
 import { UserBookmark } from '@/types/bookmark';
 import AddButton from './AddButton';
@@ -68,7 +68,15 @@ export default async function Page({ params }: { params: { _id: string } }) {
   return (
     <div className={styles.page_container}>
       <Profile userInfo={userData} userId={params._id} />
-      <div style={{ textAlign: 'center', padding: '6px' }}>{bookmarkId ? <DeleteButton _id={bookmarkId}>팔로잉</DeleteButton> : <AddButton _id={Number(params._id)} />}</div>
+      <div style={{ textAlign: 'center', padding: '6px' }}>
+        {bookmarkId ? (
+          <DeleteButton _id={bookmarkId} pathToRevalidate={`/profile/${bookmarkId}`} btnSize="xs" bgColor="line" radiusStyle="curve">
+            언팔로우
+          </DeleteButton>
+        ) : (
+          <AddButton _id={Number(params._id)} />
+        )}
+      </div>
 
       <div className={styles.tab_container}>
         <Tab first={firstTab} second={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />

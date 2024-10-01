@@ -5,7 +5,7 @@ import { differenceInDays } from 'date-fns';
 import { auth } from '@/auth';
 import { PlantBookmark } from '@/types/bookmark';
 import FollowButton from './FollowButton';
-import Tab from '@/components/Tab';
+import Tab from '@/components/tab/Tab';
 import PlantInfo from './PlantInfo';
 import PlantDiray from './PlantDiary';
 import { Metadata, ResolvingMetadata } from 'next';

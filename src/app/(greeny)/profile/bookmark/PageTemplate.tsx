@@ -2,7 +2,7 @@ import styles from './PageTemplate.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PlantBookmark, PostBookmark } from '@/types/bookmark';
-import Tab from '@components/Tab';
+import Tab from '@/components/tab/Tab';
 import BookmarkPlant from './BookmarkPlant';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;

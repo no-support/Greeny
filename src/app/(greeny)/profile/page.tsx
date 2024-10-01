@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import { auth } from '@/auth';
-import Tab from '@components/Tab';
+import Tab from '@/components/tab/Tab';
 import { CoreErrorRes, SingleItem } from '@/types/response';
 import { UserInfo } from '@/types/user';
 import { Metadata } from 'next';
