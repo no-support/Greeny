@@ -34,7 +34,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Basic: Story = {
   args: {
     w: 20,
     h: 10,
@@ -50,7 +50,7 @@ export const Circle: Story = {
   parameters: {
     docs: {
       description: {
-        story: '너비와 높이 값이 같고, radius 값이 그 값의 절반이면 원이 됩니다.',
+        story: '너비와 높잇값이 같고, radius 값이 그 값의 절반이면 원이 됩니다.',
       },
     },
   },
