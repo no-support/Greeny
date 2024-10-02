@@ -1969,13 +1969,6 @@
     "@storybook/global" "^5.0.0"
     tiny-invariant "^1.3.1"
 
-"@storybook/addon-onboarding@^8.3.4":
-  version "8.3.4"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-8.3.4.tgz#cf9132755e8490491ed544d94cd9e48bb7f945e3"
-  integrity sha512-iz7iryVZWaAmbYyzfAGg79R2/SA0gKf16JpoBgFUdr2Y/lHHBmOtrSPVzpQYUazm8bNcW0DWI4dyW/w6mibsGA==
-  dependencies:
-    react-confetti "^6.1.0"
-
 "@storybook/addon-outline@8.3.4":
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@storybook/addon-outline/-/addon-outline-8.3.4.tgz#57c66665dd771a039f29098adb3a251cd108f961"
@@ -1989,7 +1982,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/addon-toolbars/-/addon-toolbars-8.3.4.tgz#4662b80984f011025eddb143856f923291e68938"
   integrity sha512-Km1YciVIxqluDbd1xmHjANNFyMonEOtnA6e4MrnBnC9XkPXSigeFlj0JvxyI/zjBsLBoFRmQiwq55W6l3hQ9sA==
 
-"@storybook/addon-viewport@8.3.4":
+"@storybook/addon-viewport@8.3.4", "@storybook/addon-viewport@^8.3.4":
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@storybook/addon-viewport/-/addon-viewport-8.3.4.tgz#f30404c6badfa8a5da17a99b900871580d9eb6ef"
   integrity sha512-fU4LdXSSqIOLbCEh2leq/tZUYlFliXZBWr/+igQHdUoU7HY8RIImXqVUaR9wlCaTb48WezAWT60vJtwNijyIiQ==

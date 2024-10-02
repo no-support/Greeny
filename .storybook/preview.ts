@@ -1,5 +1,4 @@
 import type { Preview } from '@storybook/react';
-import { DEFAULT_VIEWPORT } from '@storybook/addon-viewport';
 import '@styles/reset.css';
 import '@styles/common.css';
 import '@styles/variable.css';
@@ -14,7 +13,13 @@ const preview: Preview = {
     },
     viewport: {
       viewports: {
-        DEFAULT_VIEWPORT,
+        desktop: {
+          name: 'desktop',
+          styles: {
+            width: '100%',
+            height: '100%',
+          },
+        },
         custom380: {
           name: 'Custom 380px',
           styles: {
@@ -23,7 +28,7 @@ const preview: Preview = {
           },
         },
       },
-      defaultViewport: DEFAULT_VIEWPORT,
+      defaultViewport: 'desktop',
     },
     nextjs: {
       appDirectory: true,
