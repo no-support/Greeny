@@ -79,7 +79,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
       </div>
 
       <div className={styles.tab_container}>
-        <Tab first={firstTab} second={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />
+        <Tab firstContent={firstTab} secondContent={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />
       </div>
     </div>
   );

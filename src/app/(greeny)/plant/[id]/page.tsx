@@ -109,7 +109,7 @@ export default async function MyPlantDetail({ params }: { params: { id: string }
       </div>
 
       <div className={styles.plantContentMo}>
-        <Tab first={<PlantInfo item={item} user={session} />} second={<PlantDiray item={item} user={session} />} firstSrOnly="식물정보" secondSrOnly="식물다이어리" />
+        <Tab firstContent={<PlantInfo item={item} user={session} />} secondContent={<PlantDiray item={item} user={session} />} firstSrOnly="식물정보" secondSrOnly="식물다이어리" />
       </div>
     </div>
   );

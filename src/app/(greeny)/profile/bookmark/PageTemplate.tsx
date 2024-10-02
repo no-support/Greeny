@@ -35,7 +35,7 @@ export default async function PageTemplate({ plants, posts }: { plants: PlantBoo
       <div className={styles.heading_container}>
         <h2 className={styles.heading}>좋아요한 게시글</h2>
       </div>
-      <Tab first={firstTab} second={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />
+      <Tab firstContent={firstTab} secondContent={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />
     </div>
   );
 }

@@ -34,14 +34,16 @@ export default async function Page() {
   });
   const loginUserData: SingleItem<UserInfo> | CoreErrorRes = await response.json();
 
-  const myPlant = await PlantList(urlParam!, true);
-  const myPost = await PostList(urlParam!, true);
+  // const myPlant = await PlantList(urlParam!, true);
+  // const myPost = await PostList(urlParam!, true);
+
+  const [myPlant, myPost] = await Promise.all([PlantList(urlParam!, true), PostList(urlParam!, true)]);
 
   return (
     <div className={styles.page_container}>
       <Profile userInfo={loginUserData} userId={session.user?.id!} isMovable />
       <div className={styles.tab_container}>
-        <Tab first={myPlant} second={myPost} firstSrOnly="식물" secondSrOnly="포스트" />
+        <Tab firstContent={myPlant} secondContent={myPost} firstSrOnly="식물" secondSrOnly="포스트" />
       </div>
     </div>
   );
