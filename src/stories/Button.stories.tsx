@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from '@components/button/Button';
+import Spinner from '@/components/spinner/Spinner';
 
 const meta = {
   title: 'Components/Button',
@@ -14,7 +15,6 @@ const meta = {
       table: {
         defaultValue: { summary: '"button"' },
       },
-      description: 'The type of button',
     },
   },
 } satisfies Meta<typeof Button>;
@@ -35,5 +35,25 @@ export const Basic: Story = {
 export const NoArg: Story = {
   args: {
     children: 'Button',
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    children: 'Button',
+    disabled: true,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    children: (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+        <Spinner />
+        Loading
+      </div>
+    ),
+    disabled: true,
+    className: 'loading',
   },
 };
