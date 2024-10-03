@@ -8,22 +8,22 @@ const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export default async function Page() {
   const session = await auth();
-  const myBookmarkPlantsRes = await fetch(`${SERVER}/bookmarks/product`, {
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  });
-  const myBookmarkPlantsData: List<PlantBookmark> = await myBookmarkPlantsRes.json();
 
-  const myBookmarkPostRes = await fetch(`${SERVER}/bookmarks/post`, {
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  });
-  const myBookmarkPostData: List<PostBookmark> = await myBookmarkPostRes.json();
+  const [myBookmarkPlantsData, myBookmarkPostData]: [List<PlantBookmark>, List<PostBookmark>] = await Promise.all([
+    fetchBookmarks('product', session!.accessToken),
+    fetchBookmarks('post', session!.accessToken),
+  ]);
 
   if (!myBookmarkPlantsData.ok || !myBookmarkPostData.ok) return 'error';
-  return <PageTemplate plants={myBookmarkPlantsData.item} posts={myBookmarkPostData.item} />;
+  return <PageTemplate plantBookmarks={myBookmarkPlantsData.item} postBookmarks={myBookmarkPostData.item} />;
+}
+
+async function fetchBookmarks(url: string, token: string) {
+  const res = await fetch(`${SERVER}/bookmarks/${url}`, {
+    headers: {
+      'client-id': `${DBNAME}`,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
 }

@@ -1,19 +1,24 @@
 import styles from './PageTemplate.module.scss';
+import type { PlantBookmark, PostBookmark } from '@/types/bookmark';
 import Link from 'next/link';
 import Image from 'next/image';
-import { PlantBookmark, PostBookmark } from '@/types/bookmark';
 import Tab from '@/components/tab/Tab';
 import BookmarkPlant from './BookmarkPlant';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
-export default async function PageTemplate({ plants, posts }: { plants: PlantBookmark[]; posts: PostBookmark[] }) {
-  const firstItem = plants.map((plant) => {
-    return <BookmarkPlant key={plant._id} name={plant.product.name} href={`/plant/${plant.product._id}`} src={`${SERVER}${plant.product.mainImages.at(0)?.path}`} />;
-  });
-  const firstTab = <ul className={styles.tab_body}>{firstItem}</ul>;
+interface PageTemplateProps {
+  plantBookmarks: PlantBookmark[];
+  postBookmarks: PostBookmark[];
+}
 
-  const secondItem = posts.map((post) => {
+export default function PageTemplate({ plantBookmarks, postBookmarks }: PageTemplateProps) {
+  const firstTabItem = plantBookmarks.map((plantBookmark) => {
+    return <BookmarkPlant key={plantBookmark._id} name={plantBookmark.product.name} href={`/plant/${plantBookmark.product._id}`} src={`${SERVER}${plantBookmark.product.mainImages.at(0)?.path}`} />;
+  });
+  const firstContent = <ul className={styles.tab_body}>{firstTabItem}</ul>;
+
+  const secondTabItem = postBookmarks.map((post) => {
     return (
       <li className={styles.contents_item} key={post._id}>
         <Link href={`/story/community/${post.post._id}`}>
@@ -28,14 +33,14 @@ export default async function PageTemplate({ plants, posts }: { plants: PlantBoo
       </li>
     );
   });
-  const secondTab = <ul className={styles.list_wrapper}>{secondItem}</ul>;
+  const secondContent = <ul className={styles.list_wrapper}>{secondTabItem}</ul>;
 
   return (
     <div className={styles.template_container}>
       <div className={styles.heading_container}>
         <h2 className={styles.heading}>좋아요한 게시글</h2>
       </div>
-      <Tab firstContent={firstTab} secondContent={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />
+      <Tab firstContent={firstContent} secondContent={secondContent} firstSrOnly="식물" secondSrOnly="포스트" />
     </div>
   );
 }
