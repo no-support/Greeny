@@ -18,13 +18,27 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  const res = await fetch(`${SERVER}/users/${session!.user?.id}`, {
+
+  if (!session || !session.user) {
+    throw new Error('No session or user found');
+  }
+
+  const userInfo = await fetchUserInfo(session.user.id!, session.accessToken);
+
+  return <EditForm user={userInfo.item} />;
+}
+
+async function fetchUserInfo(userId: string, accessToken: string): Promise<SingleItem<UserInfo>> {
+  const res = await fetch(`${SERVER}/users/${userId}`, {
     headers: {
       'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session!.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
+
   const resJson: SingleItem<UserInfo> | CoreErrorRes = await res.json();
-  if (!resJson.ok) throw new Error(resJson.message);
-  return <EditForm user={resJson.item} />;
+  if (!resJson.ok) {
+    throw new Error((resJson as CoreErrorRes).message);
+  }
+  return resJson as SingleItem<UserInfo>;
 }
