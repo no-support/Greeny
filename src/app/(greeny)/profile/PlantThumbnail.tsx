@@ -11,10 +11,17 @@ export default function PlantThumbnail({ href, src }: { href: string; src: strin
 
   return (
     <li>
-      {isLoading && <Skeleton w={100} wUnit="%" h={100} hUnit="%" />}
-      <Link href={href} className={styles.thumbnail_wrapper}>
-        <Image className={clsx(styles.thumbnail, isLoading && styles.none)} src={src} fill sizes="100%" alt="식물 썸네일" priority onLoad={() => setIsLoading(false)} />
-      </Link>
+      {isLoading ? (
+        <Skeleton w={100} wUnit="%" h={100} hUnit="%">
+          <Link href={href} className={styles.thumbnail_wrapper}>
+            <Image className={clsx(styles.thumbnail, isLoading && styles.none)} src={src} fill sizes="100%" alt="식물 썸네일" priority onLoad={() => setIsLoading(false)} />
+          </Link>
+        </Skeleton>
+      ) : (
+        <Link href={href} className={styles.thumbnail_wrapper}>
+          <Image className={clsx(styles.thumbnail, isLoading && styles.none)} src={src} fill sizes="100%" alt="식물 썸네일" priority onLoad={() => setIsLoading(false)} />
+        </Link>
+      )}
     </li>
   );
 }
