@@ -49,3 +49,7 @@ export interface Bookmark {
   product: PlantBookmark[];
   post: PostBookmark[];
 }
+
+export function isPlantBookmark(bookmarkList: PlantBookmark[] | UserBookmark[]): bookmarkList is PlantBookmark[] {
+  return (bookmarkList as PlantBookmark[])[0]?.product !== undefined;
+}

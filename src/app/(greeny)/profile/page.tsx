@@ -34,9 +34,6 @@ export default async function Page() {
   });
   const loginUserData: SingleItem<UserInfo> | CoreErrorRes = await response.json();
 
-  // const myPlant = await PlantList(urlParam!, true);
-  // const myPost = await PostList(urlParam!, true);
-
   const [myPlant, myPost] = await Promise.all([PlantList(urlParam!, true), PostList(urlParam!, true)]);
 
   return (

@@ -62,9 +62,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
     bookmarkId = bookmarkUser._id;
   }
 
-  const firstTab = await PlantList(params._id, false);
-  const secondTab = await PostList(params._id, false);
-
+  const [firstTab, secondTab] = await Promise.all([PlantList(params._id, false), PostList(params._id, false)]);
   return (
     <div className={styles.page_container}>
       <Profile userInfo={userData} userId={params._id} />

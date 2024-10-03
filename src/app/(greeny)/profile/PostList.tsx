@@ -34,22 +34,22 @@ export default async function PostList(id: string, isMe: boolean) {
       </div>
     );
   }
-  const secondItem = postData.item.map((item) => {
+  const postItem = postData.item.map((post) => {
     return (
-      <li className={styles.contents_item} key={item._id}>
-        <Link href={`/story/community/${item._id}`}>
+      <li className={styles.contents_item} key={post._id}>
+        <Link href={`/story/community/${post._id}`}>
           <div className={styles.contents_main}>
             <div className={styles.contents_info}>
-              <h3>{item.title}</h3>
-              <p>{item.content}</p>
+              <h3>{post.title}</h3>
+              <p>{post.content}</p>
             </div>
-            <div className={styles.contents_cover}>{item.image?.length > 0 ? <Image src={`${SERVER}${item.image.at(0)?.path}`} alt="식물 사진" sizes="100%" fill /> : ''}</div>
+            <div className={styles.contents_cover}>{post.image?.length > 0 ? <Image src={`${SERVER}${post.image.at(0)?.path}`} alt="식물 사진" sizes="100%" fill /> : ''}</div>
           </div>
         </Link>
       </li>
     );
   });
 
-  const secondTab = <ul className={styles.list_wrapper}>{secondItem}</ul>;
-  return secondTab;
+  const secondTabContent = <ul className={styles.list_wrapper}>{postItem}</ul>;
+  return secondTabContent;
 }

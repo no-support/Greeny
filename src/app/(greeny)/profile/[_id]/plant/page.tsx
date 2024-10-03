@@ -3,7 +3,7 @@ import { Bookmark } from '@/types/bookmark';
 import { PlantListRes } from '@/types/plant';
 import { CoreErrorRes, MultiItem, SingleItem } from '@/types/response';
 import { auth } from '@/auth';
-import PageTemplate from './PageTemplate';
+import PageTemplate from '../(pageTemplate)/PageTemplate';
 import { Metadata, ResolvingMetadata } from 'next';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
@@ -53,5 +53,5 @@ export default async function Page({ params }: { params: { _id: string } }) {
       createdAt: plant?.scientificName ?? '',
     };
   });
-  return <PageTemplate list={processedBookmarkList} isMe={isMe} userId={params._id} />;
+  return <PageTemplate headingMsg="식물 친구" list={processedBookmarkList} isMe={isMe} userId={params._id} />;
 }
