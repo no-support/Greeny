@@ -36,7 +36,7 @@ export default function BookmarkForm({ followingList, setFollowingList }: PlantF
 
   return (
     <form className={styles.form_wrapper} onSubmit={handleSubmit(submitHandler)}>
-      <Input placeholder="이름을 검색해주세요." {...register('name')} />
+      <Input placeholder="이름을 입력해주세요." type="search" {...register('name')} />
       <button className={styles.btn_submit}>
         <Image className={styles.image} src="/images/SearchIcon.svg" width={18} height={18} alt="search" />
       </button>

@@ -1,7 +1,8 @@
 import styles from './BookmarkList.module.scss';
 import { isPlantBookmark, type PlantBookmark, type UserBookmark } from '@/types/bookmark';
 import BookmarkItem from './(bookmarkItem)/BookmarkItem';
-import DeleteButton from '../../DeleteButton';
+import AsnycButton from '../../AsyncButton';
+import { deleteBookmark } from '@/app/api/actions/followAction';
 
 interface BookmarkListProps {
   bookmarkList: PlantBookmark[] | UserBookmark[];
@@ -23,9 +24,9 @@ export default function BookmarkList({ bookmarkList, isMe, userId }: BookmarkLis
             createdAt={bookmarkItem.createdAt}
           >
             {isMe && (
-              <DeleteButton _id={bookmarkItem._id} pathToRevalidate={`/profile/${userId}/plant`} bgColor="fill" btnSize="sm" radiusStyle="curve">
-                <BookmarkDelete />
-              </DeleteButton>
+              <AsnycButton action={deleteBookmark} args={[bookmarkItem._id, `/profile/${userId}/plant`]} refresh bgColor="fill" btnSize="sm" radiusStyle="curve">
+                <BookmarkDeleteSVG />
+              </AsnycButton>
             )}
           </BookmarkItem>
         ))}
@@ -36,9 +37,9 @@ export default function BookmarkList({ bookmarkList, isMe, userId }: BookmarkLis
       {bookmarkList.map((bookmarkItem) => (
         <BookmarkItem key={bookmarkItem._id} href={`/profile/${bookmarkItem.user._id}`} imgSrc={bookmarkItem.user.image} name={bookmarkItem.user.name} createdAt={bookmarkItem.createdAt}>
           {isMe && (
-            <DeleteButton _id={bookmarkItem._id} pathToRevalidate={`/profile/${userId}/user`} bgColor="fill" btnSize="sm" radiusStyle="curve">
-              <BookmarkDelete />
-            </DeleteButton>
+            <AsnycButton action={deleteBookmark} args={[bookmarkItem._id, `/profile/${userId}/user`]} refresh bgColor="fill" btnSize="sm" radiusStyle="curve">
+              <BookmarkDeleteSVG />
+            </AsnycButton>
           )}
         </BookmarkItem>
       ))}
@@ -46,7 +47,7 @@ export default function BookmarkList({ bookmarkList, isMe, userId }: BookmarkLis
   );
 }
 
-const BookmarkDelete = () => {
+const BookmarkDeleteSVG = () => {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

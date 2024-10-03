@@ -4,13 +4,13 @@ import { CoreErrorRes, List, SingleItem } from '@/types/response';
 import Tab from '@/components/tab/Tab';
 import { UserInfo } from '@/types/user';
 import { UserBookmark } from '@/types/bookmark';
-import AddButton from './AddButton';
 import { Metadata, ResolvingMetadata } from 'next';
 import { redirect } from 'next/navigation';
-import DeleteButton from './DeleteButton';
+import AsnycButton from './AsyncButton';
 import PlantList from '../PlantList';
 import PostList from '../PostList';
 import Profile from '../Profile';
+import { addUser, deleteBookmark } from '@/app/api/actions/followAction';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
@@ -60,22 +60,24 @@ export default async function Page({ params }: { params: { _id: string } }) {
     bookmarkId = bookmarkUser._id;
   }
 
-  const [firstTab, secondTab] = await Promise.all([PlantList(params._id, false), PostList(params._id, false)]);
+  const [firstContent, secondContent] = await Promise.all([PlantList(params._id, false), PostList(params._id, false)]);
   return (
     <div className={styles.page_container}>
       <Profile userInfo={userData} userId={params._id} />
       <div style={{ textAlign: 'center', padding: '6px' }}>
         {bookmarkId ? (
-          <DeleteButton _id={bookmarkId} pathToRevalidate={`/profile/${bookmarkId}`} btnSize="xs" bgColor="line" radiusStyle="curve">
-            언팔로우
-          </DeleteButton>
+          <AsnycButton action={deleteBookmark} args={[bookmarkId, `/profile/${bookmarkId}`]} btnSize="xs" bgColor="line" radiusStyle="curve">
+            언팔로
+          </AsnycButton>
         ) : (
-          <AddButton _id={Number(params._id)} />
+          <AsnycButton action={addUser} args={[Number(params._id)]} btnSize="xs" bgColor="fill" radiusStyle="curve">
+            팔로우
+          </AsnycButton>
         )}
       </div>
 
       <div className={styles.tab_container}>
-        <Tab firstContent={firstTab} secondContent={secondTab} firstSrOnly="식물" secondSrOnly="포스트" />
+        <Tab firstContent={firstContent} secondContent={secondContent} firstSrOnly="식물" secondSrOnly="포스트" />
       </div>
     </div>
   );
