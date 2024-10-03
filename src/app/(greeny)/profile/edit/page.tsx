@@ -1,6 +1,5 @@
 import { auth } from '@/auth';
 import EditForm from './EditForm';
-import { redirect } from 'next/navigation';
 import { CoreErrorRes, SingleItem } from '@/types/response';
 import { UserInfo } from '@/types/user';
 import { Metadata } from 'next';
@@ -19,13 +18,10 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  if (!session) {
-    redirect('/login');
-  }
-  const res = await fetch(`${SERVER}/users/${session.user?.id}`, {
+  const res = await fetch(`${SERVER}/users/${session!.user?.id}`, {
     headers: {
       'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session.accessToken}`,
+      Authorization: `Bearer ${session!.accessToken}`,
     },
   });
   const resJson: SingleItem<UserInfo> | CoreErrorRes = await res.json();

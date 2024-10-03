@@ -7,7 +7,6 @@ import { auth } from '@/auth';
 import { CoreErrorRes, SingleItem } from '@/types/response';
 import { UserInfo } from '@/types/user';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import Profile from '../Profile';
 import LogoutButton from './LogoutButton';
 
@@ -26,9 +25,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  if (!session) redirect('/login');
-
-  const response = await fetch(`${SERVER}/users/${session.user?.id}`, {
+  const response = await fetch(`${SERVER}/users/${session!.user?.id}`, {
     headers: {
       'client-id': `${DBNAME}`,
     },
@@ -38,7 +35,7 @@ export default async function Page() {
 
   return (
     <div className={styles.page_container}>
-      <Profile userInfo={loginUserData} userId={session.user?.id!} isMovable />
+      <Profile userInfo={loginUserData} userId={session!.user?.id!} isMovable />
       <ul className={styles.list_wrapper}>
         <li>
           <Link href="/profile/edit">

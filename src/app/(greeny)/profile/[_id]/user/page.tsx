@@ -25,8 +25,6 @@ export async function generateMetadata({ params }: { params: { id: string } }, p
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const session = await auth();
-  if (!session) redirect('/login');
-
   const bookmarksRes = await fetch(`${SERVER}/users/${params._id}/bookmarks/`, {
     headers: {
       'client-id': `${DBNAME}`,
@@ -37,7 +35,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
     redirect('/');
   }
 
-  const isMe = session.user?.id === params._id;
+  const isMe = session!.user?.id === params._id;
 
-  return <PageTemplate headingMsg="식집사 친구" list={bookmark.item.user} isMe={isMe} userId={session.user?.id!} />;
+  return <PageTemplate headingMsg="식집사 친구" list={bookmark.item.user} isMe={isMe} userId={session!.user?.id!} />;
 }

@@ -31,10 +31,8 @@ export async function generateMetadata({ params }: { params: { id: string } }, p
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const session = await auth();
-  if (!session) redirect('/login');
-
   // 세션 아이디가 params.id와 같으면 /profile로 보내버림
-  if (session.user?.id === params._id) {
+  if (session!.user?.id === params._id) {
     redirect('/profile');
   }
 
@@ -50,7 +48,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
   const myBookmarkedUsersRes = await fetch(`${SERVER}/bookmarks/user`, {
     headers: {
       'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session.accessToken}`,
+      Authorization: `Bearer ${session!.accessToken}`,
     },
   });
   const myBookmarkedUsersData: List<UserBookmark> | CoreErrorRes = await myBookmarkedUsersRes.json();

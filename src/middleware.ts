@@ -13,5 +13,5 @@ export default async function middlware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile', '/plant'],
+  matcher: ['/profile/:path*', '/plant/:path*'],
 };
