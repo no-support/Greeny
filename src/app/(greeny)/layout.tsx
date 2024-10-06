@@ -9,6 +9,7 @@ import '@/styles/variable.css';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
 import { ModalContextProvider } from '@/contexts/ModalContext';
+import ReactQueryProvider from '../config/ReactQueryProvider';
 
 const pretendard = localFont({
   src: '../../../public/fonts/PretendardVariable.woff2',
@@ -42,24 +43,26 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en" className={`${pretendard.variable}`}>
-      <head>
-        <meta charSet="UTF-8" />
-        <link rel="icon" type="image/x-icon" href="/images/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Greeny</title>
-      </head>
-      <body>
-        <div className={styles.root}>
-          <ModalContextProvider>
-            <SessionProvider>
-              <Header />
-              <main className={styles.main}>{children}</main>
-              <Footer session={session} />
-            </SessionProvider>
-          </ModalContextProvider>
-        </div>
-      </body>
-    </html>
+    <ReactQueryProvider>
+      <ModalContextProvider>
+        <SessionProvider>
+          <html lang="en" className={`${pretendard.variable}`}>
+            <head>
+              <meta charSet="UTF-8" />
+              <link rel="icon" type="image/x-icon" href="/images/favicon.svg" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Greeny</title>
+            </head>
+            <body>
+              <div className={styles.root}>
+                <Header />
+                <main className={styles.main}>{children}</main>
+                <Footer session={session} />
+              </div>
+            </body>
+          </html>
+        </SessionProvider>
+      </ModalContextProvider>
+    </ReactQueryProvider>
   );
 }

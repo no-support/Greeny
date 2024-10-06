@@ -7,23 +7,23 @@
 }
 
 .xs {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.sm {
   height: 2rem;
   width: 2rem;
 }
 
-.sm {
+.md {
   height: 2.4rem;
   width: 2.4rem;
 }
 
-.md {
-  height: 3rem;
-  width: 3rem;
-}
-
 .lg {
-  height: 4rem;
-  width: 4rem;
+  height: 2.8rem;
+  width: 2.8rem;
 }
 
 @keyframes spin {

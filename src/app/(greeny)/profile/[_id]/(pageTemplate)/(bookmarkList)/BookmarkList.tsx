@@ -1,29 +1,59 @@
 'use client';
 import styles from './BookmarkList.module.scss';
-import { isPlantBookmark, PlantBookmark, UserBookmark } from '@/types/bookmark';
+import { isPlantBookmark, isUserBookmark, PlantBookmark, UserBookmark } from '@/types/bookmark';
 import BookmarkItem from './(bookmarkItem)/BookmarkItem';
-import AsnycButton from '../../AsyncButton';
-import { deleteBookmark } from '@/app/api/actions/followAction';
+import { getBookmarks, removeBookmark } from '@/app/api/actions/followAction';
 import { useBookmarkedSearchFormStore } from '@/store/store';
-import { useLayoutEffect } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import Spinner from '@/components/spinner/Spinner';
+import Button from '@/components/button/Button';
+import { useState } from 'react';
 
 interface BookmarkListProps {
-  list: PlantBookmark[] | UserBookmark[];
   isMe: boolean;
   userId: string;
+  type: 'plant' | 'user';
 }
 
-export default function BookmarkList({ list, isMe, userId }: BookmarkListProps) {
-  const setBookmarkList = useBookmarkedSearchFormStore((state) => state.setBookmarkList);
-  const bookmarkList = useBookmarkedSearchFormStore((state) => state.bookmarkList);
+export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) {
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const bookmarkQuery = useQuery({
+    queryKey: ['bookmarkList', userId, type],
+    queryFn: () => getBookmarks(userId),
+  });
+  const { data, isLoading, isError } = bookmarkQuery;
+
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: async (bookmarkId: number) => {
+      return removeBookmark(bookmarkId);
+    },
+    onMutate: (bookmarkId) => {
+      setDeletingId(bookmarkId);
+    },
+    onSuccess: () => {
+      bookmarkQuery.refetch();
+      setDeletingId(null);
+    },
+    onError: (error) => {
+      console.log(error);
+      setDeletingId(null);
+    },
+  });
   const keyword = useBookmarkedSearchFormStore((state) => state.keyword);
 
-  useLayoutEffect(() => {
-    setBookmarkList(list);
-  }, [list, setBookmarkList]);
+  if (!data || isLoading)
+    return (
+      <div className={styles.loading}>
+        <Spinner />
+      </div>
+    );
+
+  isError && <div>Error</div>;
+
+  const bookmarkList = type === 'plant' ? data.product : data.user;
 
   if (isPlantBookmark(bookmarkList)) {
-    const filteredData = filterPlant(bookmarkList, keyword);
+    const filteredData = filterPlants(bookmarkList, keyword);
     if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
     return (
       <ul className={styles.bookmark_list}>
@@ -36,31 +66,47 @@ export default function BookmarkList({ list, isMe, userId }: BookmarkListProps) 
             createdAt={bookmarkItem.createdAt}
           >
             {isMe && (
-              <AsnycButton action={deleteBookmark} args={[bookmarkItem._id, `/profile/${userId}/plant`]} refresh bgColor="fill" btnSize="sm" radiusStyle="curve">
-                <BookmarkDeleteSVG />
-              </AsnycButton>
+              <Button
+                onClick={() => {
+                  deleteBookmarkMutation.mutate(bookmarkItem._id);
+                }}
+                bgColor="fill"
+                btnSize="sm"
+                radiusStyle="curve"
+                disabled={deletingId === bookmarkItem._id}
+              >
+                {deletingId === bookmarkItem._id ? <Spinner size="xs" /> : <BookmarkDeleteSVG />}
+              </Button>
+            )}
+          </BookmarkItem>
+        ))}
+      </ul>
+    );
+  } else if (isUserBookmark(bookmarkList)) {
+    const filteredData = filterUsers(bookmarkList, keyword);
+    if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
+    return (
+      <ul className={styles.bookmark_list}>
+        {filteredData.map((bookmarkItem) => (
+          <BookmarkItem key={bookmarkItem._id} href={`/profile/${bookmarkItem.user._id}`} imgSrc={bookmarkItem.user.image} name={bookmarkItem.user.name} createdAt={bookmarkItem.createdAt}>
+            {isMe && (
+              <Button
+                onClick={() => {
+                  deleteBookmarkMutation.mutate(bookmarkItem._id);
+                }}
+                bgColor="fill"
+                btnSize="sm"
+                radiusStyle="curve"
+                disabled={deletingId === bookmarkItem._id}
+              >
+                {deletingId === bookmarkItem._id ? <Spinner size="xs" /> : <BookmarkDeleteSVG />}
+              </Button>
             )}
           </BookmarkItem>
         ))}
       </ul>
     );
   }
-
-  const filteredData = filterUser(bookmarkList, keyword);
-  if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
-  return (
-    <ul className={styles.bookmark_list}>
-      {filteredData.map((bookmarkItem) => (
-        <BookmarkItem key={bookmarkItem._id} href={`/profile/${bookmarkItem.user._id}`} imgSrc={bookmarkItem.user.image} name={bookmarkItem.user.name} createdAt={bookmarkItem.createdAt}>
-          {isMe && (
-            <AsnycButton action={deleteBookmark} args={[bookmarkItem._id, `/profile/${userId}/user`]} refresh bgColor="fill" btnSize="sm" radiusStyle="curve">
-              <BookmarkDeleteSVG />
-            </AsnycButton>
-          )}
-        </BookmarkItem>
-      ))}
-    </ul>
-  );
 }
 
 const BookmarkDeleteSVG = () => {
@@ -76,9 +122,9 @@ const BookmarkDeleteSVG = () => {
   );
 };
 
-function filterPlant(plantBookmarks: PlantBookmark[], keyword: string) {
+function filterPlants(plantBookmarks: PlantBookmark[], keyword: string) {
   return plantBookmarks.filter((item) => item.product.name.toLowerCase().includes(keyword.toLowerCase()));
 }
-function filterUser(userBookmarks: UserBookmark[], keyword: string) {
+function filterUsers(userBookmarks: UserBookmark[], keyword: string) {
   return userBookmarks.filter((item) => item.user.name.toLowerCase().includes(keyword.toLowerCase()));
 }

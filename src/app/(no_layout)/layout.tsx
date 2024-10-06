@@ -5,6 +5,7 @@ import '@/styles/reset.css';
 import '@/styles/common.css';
 import '@/styles/variable.css';
 import { ModalContextProvider } from '@/contexts/ModalContext';
+import ReactQueryProvider from '../config/ReactQueryProvider';
 
 const pretendard = localFont({
   src: '../../../public/fonts/PretendardVariable.woff2',
@@ -37,20 +38,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${pretendard.variable}`}>
-      <head>
-        <meta charSet="UTF-8" />
-        <link rel="icon" type="image/x-icon" href="/images/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Greeny</title>
-      </head>
-      <body>
-        <div className={styles.root}>
-          <ModalContextProvider>
-            <main className={styles.main}>{children}</main>
-          </ModalContextProvider>
-        </div>
-      </body>
-    </html>
+    <ReactQueryProvider>
+      <ModalContextProvider>
+        <html lang="en" className={`${pretendard.variable}`}>
+          <head>
+            <meta charSet="UTF-8" />
+            <link rel="icon" type="image/x-icon" href="/images/favicon.svg" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Greeny</title>
+          </head>
+          <body>
+            <div className={styles.root}>
+              <main className={styles.main}>{children}</main>
+            </div>
+          </body>
+        </html>
+      </ModalContextProvider>
+    </ReactQueryProvider>
   );
 }

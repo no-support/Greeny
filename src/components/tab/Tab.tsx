@@ -15,11 +15,11 @@ export default function Tab({ firstSrOnly, secondSrOnly, firstContent, secondCon
       <Tabs.List className={styles.List} aria-label="탭 목록">
         <Tabs.Trigger className={styles.Trigger} value="tab1">
           <span className="hidden">{firstSrOnly}</span>
-          <MyPlantIcon />
+          <PlantIcon />
         </Tabs.Trigger>
         <Tabs.Trigger className={styles.Trigger} value="tab2">
           <span className="hidden">{secondSrOnly}</span>
-          <MyPostIcon />
+          <PostIcon />
         </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content className={styles.Content} value="tab1">
@@ -32,7 +32,7 @@ export default function Tab({ firstSrOnly, secondSrOnly, firstContent, secondCon
   );
 }
 
-function MyPlantIcon() {
+function PlantIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -45,7 +45,7 @@ function MyPlantIcon() {
   );
 }
 
-function MyPostIcon() {
+function PostIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
