@@ -1,10 +1,8 @@
-'use client';
 import styles from './PageTemplate.module.scss';
-import { useState } from 'react';
-import { PlantBookmark, UserBookmark } from '@/types/bookmark';
 import BookmarkForm from './(bookmarkForm)/BookmarkForm';
 import Heading from '../../Heading';
 import BookmarkList from './(bookmarkList)/BookmarkList';
+import { PlantBookmark, UserBookmark } from '@/types/bookmark';
 
 interface PageTemplateProps {
   headingMsg: string;
@@ -14,15 +12,14 @@ interface PageTemplateProps {
 }
 
 export default function PageTemplate({ headingMsg, list, isMe, userId }: PageTemplateProps) {
-  const [bookmarkList, setBookmarkList] = useState(list);
   return (
     <div className={styles.template_wrapper}>
       <Heading>{headingMsg}</Heading>
       <div className={styles.content_wrapper}>
         <div className={styles.form_container}>
-          <BookmarkForm followingList={bookmarkList} setFollowingList={setBookmarkList} />
+          <BookmarkForm />
         </div>
-        <BookmarkList bookmarkList={bookmarkList} isMe={isMe} userId={userId} />
+        <BookmarkList list={list} isMe={isMe} userId={userId} />
       </div>
     </div>
   );

@@ -1,21 +1,33 @@
+'use client';
 import styles from './BookmarkList.module.scss';
-import { isPlantBookmark, type PlantBookmark, type UserBookmark } from '@/types/bookmark';
+import { isPlantBookmark, PlantBookmark, UserBookmark } from '@/types/bookmark';
 import BookmarkItem from './(bookmarkItem)/BookmarkItem';
 import AsnycButton from '../../AsyncButton';
 import { deleteBookmark } from '@/app/api/actions/followAction';
+import { useBookmarkedSearchFormStore } from '@/store/store';
+import { useLayoutEffect } from 'react';
 
 interface BookmarkListProps {
-  bookmarkList: PlantBookmark[] | UserBookmark[];
+  list: PlantBookmark[] | UserBookmark[];
   isMe: boolean;
   userId: string;
 }
 
-export default function BookmarkList({ bookmarkList, isMe, userId }: BookmarkListProps) {
-  // if (bookmarkList.length === 0) return <div className={styles.no_bookmark}>북마크가 없습니다.</div>;
-  if (isPlantBookmark(bookmarkList))
+export default function BookmarkList({ list, isMe, userId }: BookmarkListProps) {
+  const setBookmarkList = useBookmarkedSearchFormStore((state) => state.setBookmarkList);
+  const bookmarkList = useBookmarkedSearchFormStore((state) => state.bookmarkList);
+  const keyword = useBookmarkedSearchFormStore((state) => state.keyword);
+
+  useLayoutEffect(() => {
+    setBookmarkList(list);
+  }, [list, setBookmarkList]);
+
+  if (isPlantBookmark(bookmarkList)) {
+    const filteredData = filterPlant(bookmarkList, keyword);
+    if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
     return (
       <ul className={styles.bookmark_list}>
-        {bookmarkList.map((bookmarkItem) => (
+        {filteredData.map((bookmarkItem) => (
           <BookmarkItem
             key={bookmarkItem._id}
             href={`/profile/${bookmarkItem.product._id}`}
@@ -32,9 +44,13 @@ export default function BookmarkList({ bookmarkList, isMe, userId }: BookmarkLis
         ))}
       </ul>
     );
+  }
+
+  const filteredData = filterUser(bookmarkList, keyword);
+  if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
   return (
     <ul className={styles.bookmark_list}>
-      {bookmarkList.map((bookmarkItem) => (
+      {filteredData.map((bookmarkItem) => (
         <BookmarkItem key={bookmarkItem._id} href={`/profile/${bookmarkItem.user._id}`} imgSrc={bookmarkItem.user.image} name={bookmarkItem.user.name} createdAt={bookmarkItem.createdAt}>
           {isMe && (
             <AsnycButton action={deleteBookmark} args={[bookmarkItem._id, `/profile/${userId}/user`]} refresh bgColor="fill" btnSize="sm" radiusStyle="curve">
@@ -59,3 +75,10 @@ const BookmarkDeleteSVG = () => {
     </svg>
   );
 };
+
+function filterPlant(plantBookmarks: PlantBookmark[], keyword: string) {
+  return plantBookmarks.filter((item) => item.product.name.toLowerCase().includes(keyword.toLowerCase()));
+}
+function filterUser(userBookmarks: UserBookmark[], keyword: string) {
+  return userBookmarks.filter((item) => item.user.name.toLowerCase().includes(keyword.toLowerCase()));
+}
