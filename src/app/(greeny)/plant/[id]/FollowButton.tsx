@@ -1,7 +1,7 @@
 'use client';
 import { PlantBookmark } from '@/types/bookmark';
 import styles from './MyPlantDetail.module.scss';
-import { followPlant, unFollowPlant } from '@/app/api/actions/followAction';
+import { followPlant, unFollowPlant } from '@/app/api/actions/bookmarkAction';
 
 export default function FollowButton({ id, bookmarkData }: { id: string; bookmarkData: PlantBookmark[] }) {
   const isFollowed = bookmarkData.some((num) => Number(id) === num.product._id);

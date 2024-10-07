@@ -1,20 +1,13 @@
 import styles from './PostList.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CoreErrorRes, MultiItem } from '@/types/response';
-import { PostRes } from '@/types/post';
 import Button from '@/components/button/Button';
+import { fetchPostsByUserId } from '@/app/api/fetch/postFetch';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export default async function PostList(id: string, isMe: boolean) {
-  const myPostRes = await fetch(`${SERVER}/posts/users/${id}?type=post`, {
-    headers: {
-      'client-id': `${DBNAME}`,
-    },
-  });
-  const postData: MultiItem<PostRes> | CoreErrorRes = await myPostRes.json();
+  const postData = await fetchPostsByUserId(id);
   if (!postData.ok) {
     return postData.message;
   }

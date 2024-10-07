@@ -3,7 +3,7 @@ import type { PlantBookmark, PostBookmark } from '@/types/bookmark';
 import Link from 'next/link';
 import Image from 'next/image';
 import Tab from '@/components/tab/Tab';
-import BookmarkPlant from './BookmarkPlant';
+import BookmarkPlant from './(bookmarkPlant)/BookmarkPlant';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 

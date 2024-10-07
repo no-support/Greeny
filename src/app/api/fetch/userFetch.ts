@@ -24,3 +24,18 @@ export async function getUserInfo(userId: string): Promise<SingleItem<UserInfo> 
   });
   return res.json();
 }
+
+export async function fetchUserInfo(userId: string): Promise<SingleItem<UserInfo>> {
+  const url = `${SERVER}/users/${userId}`;
+  const res = await fetch(url, {
+    headers: {
+      'client-id': `${DBNAME}`,
+    },
+  });
+
+  const resJson: SingleItem<UserInfo> | CoreErrorRes = await res.json();
+  if (!resJson.ok) {
+    throw new Error(resJson.message);
+  }
+  return resJson;
+}

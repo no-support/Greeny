@@ -65,7 +65,7 @@ export default function UI() {
         </div>
 
         <form className={styles.search_form} onSubmit={handleSubmit(submitHandler)}>
-          <Input type="search" placeholder="식물명, 질문을 입력해주세요" {...register('keyword')} />
+          <Input type="search" placeholder="식물명을 입력해주세요" {...register('keyword')} />
           <div className={styles.btn_wrapper}>
             <button type="submit" className={styles.search_btn}>
               <Image src="/images/SearchIcon.svg" width={18} height={18} alt="search" />

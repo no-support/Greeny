@@ -4,14 +4,10 @@ import LikeIcon from '@images/LikeIcon_nor.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { auth } from '@/auth';
-import { CoreErrorRes, SingleItem } from '@/types/response';
-import { UserInfo } from '@/types/user';
 import { Metadata } from 'next';
 import Profile from '../Profile';
 import LogoutButton from './LogoutButton';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { fetchUserInfo } from '@/app/api/fetch/userFetch';
 
 export const metadata: Metadata = {
   title: 'Profile',
@@ -25,13 +21,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  const response = await fetch(`${SERVER}/users/${session!.user?.id}`, {
-    headers: {
-      'client-id': `${DBNAME}`,
-    },
-  });
-
-  const loginUserData: SingleItem<UserInfo> | CoreErrorRes = await response.json();
+  const loginUserData = await fetchUserInfo(session!.user?.id!);
 
   return (
     <div className={styles.page_container}>

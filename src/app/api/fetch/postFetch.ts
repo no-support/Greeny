@@ -99,3 +99,14 @@ async function getAuthHeader() {
 
   return authorizationHeader;
 }
+
+export async function fetchPostsByUserId(userId: string) {
+  const url = `${SERVER}/posts/users/${userId}?type=post`;
+  const res = await fetch(url, {
+    headers: {
+      'client-id': `${DBNAME}`,
+    },
+  });
+  const resJson: MultiItem<PostRes> | CoreErrorRes = await res.json();
+  return resJson;
+}

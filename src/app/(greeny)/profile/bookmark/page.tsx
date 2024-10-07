@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import PageTemplate from './PageTemplate';
+import PageTemplate from './(pageTemplate)/PageTemplate';
 import { getMyBookmarksByPost, getMyBookmarksByProduct } from '@/app/api/fetch/bookmarkFetch';
 
 export default async function Page() {

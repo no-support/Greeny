@@ -1,20 +1,13 @@
 import styles from './PlantList.module.scss';
 import Link from 'next/link';
-import { PlantListRes } from '@/types/plant';
-import { CoreErrorRes, MultiItem } from '@/types/response';
 import PlantThumbnail from './PlantThumbnail';
 import Button from '@/components/button/Button';
+import { fetchPlantList } from '@/app/api/fetch/plantFetch';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export default async function PlantList(id: string, isMe: boolean) {
-  const myPlantRes = await fetch(`${SERVER}/products?seller_id=${id}`, {
-    headers: {
-      'client-id': `${DBNAME}`,
-    },
-  });
-  const plantData: MultiItem<PlantListRes> | CoreErrorRes = await myPlantRes.json();
+  const plantData = await fetchPlantList(id);
   if (!plantData.ok) return plantData.message;
 
   if (isMe && plantData.item.length === 0) {
