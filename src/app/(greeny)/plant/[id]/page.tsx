@@ -12,7 +12,6 @@ import { Metadata, ResolvingMetadata } from 'next';
 import Image from 'next/image';
 import plantEdit from '@images/PlantEdit.svg';
 import Link from 'next/link';
-import { plantsDelete } from '@/app/api/actions/plantAction';
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export async function generateMetadata({ params }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
@@ -38,12 +37,6 @@ export default async function MyPlantDetail({ params }: { params: { id: string }
   const currentDay = item.adoptionDate;
   const toDay = new Date();
   const diffDays = differenceInDays(toDay, currentDay);
-
-  const handleDelete = () => {
-    if (confirm(`"정말 떠나보낼 거예요?" \n${item.name}이(가) 마지막으로 잎사귀를 흔들고 있어요... 🍃`) == true) {
-      plantsDelete(item._id);
-    }
-  };
 
   return (
     <div className={styles.plantDetail_wrapper}>
