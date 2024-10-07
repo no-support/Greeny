@@ -9,6 +9,7 @@ import { PlantJson } from '@/types/plant';
 import plantList from '@/app/data/plantList';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
+import Input from '@/components/input/Input';
 
 interface FormData {
   keyword: string;
@@ -64,7 +65,7 @@ export default function UI() {
         </div>
 
         <form className={styles.search_form} onSubmit={handleSubmit(submitHandler)}>
-          <input type="search" placeholder="식물명, 질문을 입력해주세요" {...register('keyword')} />
+          <Input type="search" placeholder="식물명, 질문을 입력해주세요" {...register('keyword')} />
           <div className={styles.btn_wrapper}>
             <button type="submit" className={styles.search_btn}>
               <Image src="/images/SearchIcon.svg" width={18} height={18} alt="search" />

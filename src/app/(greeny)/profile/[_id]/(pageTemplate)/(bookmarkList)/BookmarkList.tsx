@@ -2,12 +2,13 @@
 import styles from './BookmarkList.module.scss';
 import { isPlantBookmark, isUserBookmark, PlantBookmark, UserBookmark } from '@/types/bookmark';
 import BookmarkItem from './(bookmarkItem)/BookmarkItem';
-import { getBookmarks, removeBookmark } from '@/app/api/actions/followAction';
+import { getBookmarksByUserId, removeBookmark } from '@/app/api/fetch/bookmarkFetch';
 import { useBookmarkedSearchFormStore } from '@/store/store';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Spinner from '@/components/spinner/Spinner';
 import Button from '@/components/button/Button';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface BookmarkListProps {
   isMe: boolean;
@@ -16,19 +17,20 @@ interface BookmarkListProps {
 }
 
 export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) {
+  const session = useSession();
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
   const bookmarkQuery = useQuery({
     queryKey: ['bookmarkList', userId, type],
-    queryFn: () => getBookmarks(userId),
+    queryFn: () => getBookmarksByUserId(userId),
   });
   const { data, isLoading, isError } = bookmarkQuery;
 
   const deleteBookmarkMutation = useMutation({
-    mutationFn: async (bookmarkId: number) => {
-      return removeBookmark(bookmarkId);
-    },
+    mutationFn: (bookmarkId: number) => removeBookmark(bookmarkId, session.data!.accessToken!),
     onMutate: (bookmarkId) => {
       setDeletingId(bookmarkId);
+      queryClient.invalidateQueries({ queryKey: ['bookmark', userId] });
     },
     onSuccess: () => {
       bookmarkQuery.refetch();

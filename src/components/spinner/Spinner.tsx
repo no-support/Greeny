@@ -5,7 +5,7 @@ export interface SpinnerProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
-const Spinner = ({ size = 'md' }: SpinnerProps) => {
+const Spinner = ({ size = 'xs' }: SpinnerProps) => {
   return <span className={clsx(styles.spinner, styles[size])}></span>;
 };
 export default Spinner;
