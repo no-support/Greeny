@@ -2,7 +2,8 @@
 
 .zero_item_noti_container {
   width: 100%;
-  margin-top: 50%;
+  margin-top: 10%;
+  margin-bottom: 10%;
 
   .zero_item_noti {
     @include flex-vertical(1.8rem);
@@ -18,7 +19,7 @@
       font-weight: var(--font-bold);
     }
 
-    zero_item_noti_link {
+    .zero_item_noti_link {
       font-size: 1.2rem;
       font-weight: var(--font-medium);
     }

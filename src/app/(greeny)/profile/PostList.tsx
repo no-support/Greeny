@@ -14,7 +14,7 @@ export default async function PostList(id: string, isMe: boolean) {
 
   if (isMe && postData.item.length === 0) {
     return (
-      <div className={styles.zero_item_noti_wrapper}>
+      <div className={styles.zero_item_noti_container}>
         <div className={styles.zero_item_noti}>
           <div className={styles.zero_item_noti_msg}>
             <p>아직 작성된 게시글이 없어요!</p>
