@@ -11,7 +11,6 @@ import Image from 'next/image';
 import plantEdit from '@images/PlantEdit.svg';
 import Link from 'next/link';
 import { getMyBookmarks } from '@/app/api/fetch/bookmarkFetch';
-import { PlantBookmark } from '@/types/bookmark';
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export async function generateMetadata({ params }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
@@ -32,7 +31,7 @@ export async function generateMetadata({ params }: { params: { id: string } }, p
 export default async function MyPlantDetail({ params }: { params: { id: string } }) {
   const session = await auth();
   const { item } = await getPlantDetail(params.id);
-  const { item: bookmarkData } = await getMyBookmarks<PlantBookmark>('product', session?.accessToken!);
+  const { item: plantBookmarks } = await getMyBookmarks('product', session?.accessToken!);
   const adoptionDate = item.adoptionDate;
   const toDay = new Date();
   const diffDays = differenceInDays(toDay, adoptionDate!);
@@ -92,7 +91,7 @@ export default async function MyPlantDetail({ params }: { params: { id: string }
           `{item.name}`와 함께한지 {diffDays}일째에요!
         </p>
       ) : (
-        <FollowButton id={params.id} bookmarkData={bookmarkData} />
+        <FollowButton id={params.id} plantBookmarks={plantBookmarks} />
       )}
 
       <div className={styles.plantContentPc}>

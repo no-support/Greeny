@@ -64,25 +64,25 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
     if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
     return (
       <ul className={styles.bookmark_list}>
-        {filteredData.map((bookmarkItem) => (
+        {filteredData.map((plantBookmark) => (
           <BookmarkItem
-            key={bookmarkItem._id}
-            href={`/profile/${bookmarkItem.product._id}`}
-            imgSrc={bookmarkItem.product.mainImages.at(0)!.path}
-            name={bookmarkItem.product.name}
-            createdAt={bookmarkItem.createdAt}
+            key={plantBookmark._id}
+            href={`/profile/${plantBookmark.product._id}`}
+            imgSrc={plantBookmark.product.mainImages.at(0)!.path}
+            name={plantBookmark.product.name}
+            createdAt={plantBookmark.createdAt}
           >
             {isMe && (
               <Button
                 onClick={() => {
-                  deleteBookmarkMutation.mutate(bookmarkItem._id);
+                  deleteBookmarkMutation.mutate(plantBookmark._id);
                 }}
                 bgColor="fill"
                 btnSize="sm"
                 radiusStyle="curve"
-                disabled={deletingId === bookmarkItem._id}
+                disabled={deletingId === plantBookmark._id}
               >
-                {deletingId === bookmarkItem._id ? <Spinner size="xs" /> : <Image src="/images/FollowerDelete.svg" alt="북마크 삭제" width={18} height={18} />}
+                {deletingId === plantBookmark._id ? <Spinner size="xs" /> : <Image src="/images/FollowerDelete.svg" alt="북마크 삭제" width={18} height={18} />}
               </Button>
             )}
           </BookmarkItem>
@@ -94,19 +94,19 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
     if (filteredData.length === 0) return <div className={styles.no_bookmark}>검색 결과가 없습니다.</div>;
     return (
       <ul className={styles.bookmark_list}>
-        {filteredData.map((bookmarkItem) => (
-          <BookmarkItem key={bookmarkItem._id} href={`/profile/${bookmarkItem.user._id}`} imgSrc={bookmarkItem.user.image} name={bookmarkItem.user.name} createdAt={bookmarkItem.createdAt}>
+        {filteredData.map((userBookmark) => (
+          <BookmarkItem key={userBookmark._id} href={`/profile/${userBookmark.user._id}`} imgSrc={userBookmark.user.image} name={userBookmark.user.name} createdAt={userBookmark.createdAt}>
             {isMe && (
               <Button
                 onClick={() => {
-                  deleteBookmarkMutation.mutate(bookmarkItem._id);
+                  deleteBookmarkMutation.mutate(userBookmark._id);
                 }}
                 bgColor="fill"
                 btnSize="sm"
                 radiusStyle="curve"
-                disabled={deletingId === bookmarkItem._id}
+                disabled={deletingId === userBookmark._id}
               >
-                {deletingId === bookmarkItem._id ? <Spinner size="xs" /> : <Image src="/images/FollowerDelete.svg" alt="북마크 삭제" width={18} height={18} />}
+                {deletingId === userBookmark._id ? <Spinner size="xs" /> : <Image src="/images/FollowerDelete.svg" alt="북마크 삭제" width={18} height={18} />}
               </Button>
             )}
           </BookmarkItem>
@@ -117,8 +117,8 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
 }
 
 function filterPlants(plantBookmarks: PlantBookmark[], keyword: string) {
-  return plantBookmarks.filter((item) => item.product.name.toLowerCase().includes(keyword.toLowerCase()));
+  return plantBookmarks.filter((plantBookmark) => plantBookmark.product.name.toLowerCase().includes(keyword.toLowerCase()));
 }
 function filterUsers(userBookmarks: UserBookmark[], keyword: string) {
-  return userBookmarks.filter((item) => item.user.name.toLowerCase().includes(keyword.toLowerCase()));
+  return userBookmarks.filter((userBookmark) => userBookmark.user.name.toLowerCase().includes(keyword.toLowerCase()));
 }

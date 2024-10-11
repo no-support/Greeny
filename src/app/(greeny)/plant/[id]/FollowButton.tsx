@@ -3,9 +3,9 @@ import { PlantBookmark } from '@/types/bookmark';
 import styles from './MyPlantDetail.module.scss';
 import { followPlant, unFollowPlant } from '@/app/api/actions/bookmarkAction';
 
-export default function FollowButton({ id, bookmarkData }: { id: string; bookmarkData: PlantBookmark[] }) {
-  const isFollowed = bookmarkData.some((num) => Number(id) === num.product._id);
-  const LikeId = bookmarkData.find((num) => Number(id) === num.product._id);
+export default function FollowButton({ id, plantBookmarks }: { id: string; plantBookmarks: PlantBookmark[] }) {
+  const isFollowed = plantBookmarks.some((num) => Number(id) === num.product._id);
+  const LikeId = plantBookmarks.find((num) => Number(id) === num.product._id);
 
   return (
     <>

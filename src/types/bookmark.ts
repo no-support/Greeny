@@ -1,7 +1,8 @@
 import { ImageRes } from './image';
 import { UserSimple } from './user';
 
-export interface User {
+export type Type = 'product' | 'user' | 'post';
+interface User {
   _id: number;
   name: string;
   email: string;
@@ -9,7 +10,7 @@ export interface User {
   type: 'seller';
 }
 
-export interface Plant {
+interface Plant {
   _id: number;
   name: string;
   price: number;
@@ -18,9 +19,8 @@ export interface Plant {
   mainImages: ImageRes[];
 }
 
-export interface Post {
+interface Post {
   _id: number;
-  // images: ImageRes[];
   image: ImageRes[];
   type: 'post';
   title: string;
@@ -44,10 +44,8 @@ export interface PostBookmark extends BookmarkHeader {
   memo?: string;
 }
 
-export type BookmarkType = UserBookmark | PlantBookmark | PostBookmark;
-
 export interface Bookmark {
-  byUser: { user_id: number; name: string; emai: string; image: string }[];
+  byUser: { user_id: number; name: string; emai: string; image: string }[]; // 안 쓰임
   user: UserBookmark[];
   product: PlantBookmark[];
   post: PostBookmark[];
@@ -62,7 +60,7 @@ export function isUserBookmark(bookmarkList: PlantBookmark[] | UserBookmark[] | 
 }
 
 export interface AddBookmarkRes extends BookmarkHeader {
-  type: 'product' | 'user' | 'post';
+  type: Type;
   user_id: number;
   target_id: number;
   user: Partial<User>;

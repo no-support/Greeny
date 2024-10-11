@@ -14,7 +14,7 @@ export default function Bookmark() {
 
   const bookmarkQuery = useQuery({
     queryKey: ['bookmark', _id],
-    queryFn: () => getMyBookmarks<UserBookmark>('user', session.data?.accessToken!),
+    queryFn: () => getMyBookmarks('user', session.data?.accessToken!),
   });
   const { status, data: myBookmarkedUsersData } = bookmarkQuery;
 
