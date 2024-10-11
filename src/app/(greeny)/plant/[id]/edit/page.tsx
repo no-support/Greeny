@@ -1,7 +1,6 @@
 import styles from './MyPlantEdit.module.scss';
-import { fetchPlantsDetail } from '@/app/api/fetch/plantFetch';
+import { getPlantDetail } from '@/app/api/fetch/plantFetch';
 import MyPlantEditForm from './MyPlantEditForm';
-import { PlantRes } from '@/types/plant';
 import { Metadata, ResolvingMetadata } from 'next';
 
 export async function generateMetadata({ params }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
@@ -20,7 +19,7 @@ export async function generateMetadata({ params }: { params: { id: string } }, p
 }
 
 export default async function MyPlantDiaryEdit({ params }: { params: { id: string } }) {
-  const item = await fetchPlantsDetail<PlantRes>(params.id);
+  const { item } = await getPlantDetail(params.id);
 
   return (
     <div className={styles.plantEdit_wrapper}>

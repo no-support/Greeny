@@ -1,70 +1,24 @@
-import { Bookmark, PlantBookmark, PostBookmark, UserBookmark } from '@/types/bookmark';
-import { SingleItem, CoreErrorRes, List } from '@/types/response';
+import { AddBookmarkRes, BookmarkType } from '@/types/bookmark';
+import { SingleItem, List, CoreSuccessRes } from '@/types/response';
 
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+export const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+export const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
-export async function getBookmarksByUserId(userId: string) {
-  const url = `${SERVER}/users/${userId}/bookmarks`;
-  const res = await fetch(url, {
-    headers: {
-      'client-id': `${DBNAME}`,
-    },
-  });
-  const data: SingleItem<Bookmark> | CoreErrorRes = await res.json();
-  if (!data.ok) {
-    console.error(data);
-    throw new Error('북마크 목록 조회 실패');
-  }
-  return data.item;
-}
-
-export async function getMyBookmarksByUser(token: string) {
-  const url = `${SERVER}/bookmarks/user`;
+export async function getMyBookmarks<T extends BookmarkType>(type: 'user' | 'product' | 'post', token: string): Promise<List<T>> {
+  const url = `${SERVER}/bookmarks/${type}`;
   const res = await fetch(url, {
     headers: {
       'client-id': `${DBNAME}`,
       Authorization: `Bearer ${token}`,
     },
   });
-  const data: List<UserBookmark> | CoreErrorRes = await res.json();
-  if (!data.ok) {
-    console.error(data);
+  if (!res.ok) {
+    throw new Error(res.statusText);
   }
-  return data;
+  return res.json();
 }
 
-export async function getMyBookmarksByProduct(token: string) {
-  const url = `${SERVER}/bookmarks/product`;
-  const res = await fetch(url, {
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data: List<PlantBookmark> | CoreErrorRes = await res.json();
-  if (!data.ok) {
-    console.error(data);
-  }
-  return data;
-}
-
-export async function getMyBookmarksByPost(token: string) {
-  const url = `${SERVER}/bookmarks/post`;
-  const res = await fetch(url, {
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data: List<PostBookmark> | CoreErrorRes = await res.json();
-  if (!data.ok) {
-    console.error(data);
-  }
-  return data;
-}
-
-export async function removeBookmark(bookmarkId: number, token: string) {
+export async function removeBookmark(bookmarkId: number, token: string): Promise<CoreSuccessRes> {
   const url = `${SERVER}/bookmarks/${bookmarkId}`;
   const res = await fetch(url, {
     method: 'DELETE',
@@ -73,11 +27,15 @@ export async function removeBookmark(bookmarkId: number, token: string) {
       Authorization: `Bearer ${token}`,
     },
   });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
   return res.json();
 }
 
-export async function addBookmarkByUserId(userId: number, token: string) {
-  const url = `${SERVER}/bookmarks/user`;
+export async function addBookmark(type: 'product' | 'user' | 'post', userId: number, token: string, memo?: string): Promise<SingleItem<AddBookmarkRes>> {
+  const url = `${SERVER}/bookmarks/${type}`;
+  const body = memo ? { target_id: userId } : { target_id: userId, memo: memo };
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -85,9 +43,10 @@ export async function addBookmarkByUserId(userId: number, token: string) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      target_id: userId,
-    }),
+    body: JSON.stringify(body),
   });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
   return res.json();
 }

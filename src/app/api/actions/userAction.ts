@@ -2,98 +2,44 @@
 'use server';
 
 import { auth } from '@/auth';
-import { FileRes } from '@/types/image';
-import { ApiResWithValidation, MultiItem, SingleItem } from '@/types/response';
-import { UserData, UserForm } from '@/types/user';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { ApiResWithValidation, SingleItem } from '@/types/response';
+import { UserData, UserForm, UserInfo } from '@/types/user';
+import { addUser, updateUserInfo } from '../fetch/userFetch';
+import { uploadImage } from '../fetch/fileFetch';
 
 export async function signup(formData: FormData): Promise<ApiResWithValidation<SingleItem<UserData>, UserForm>> {
-  const userObj = {
-    type: formData.get('type') || 'seller',
-    name: formData.get('name'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-    phone: formData.get('phone'),
-    address: formData.get('address'),
+  const userObj: Partial<UserForm> = {
+    type: 'seller',
+    name: formData.get('name')?.toString(),
+    email: formData.get('email')?.toString(),
+    password: formData.get('password')?.toString(),
+    phone: formData.get('phone')?.toString(),
+    address: formData.get('address')?.toString(),
     image: '',
   };
-
-  const attach = formData.get('attach') as File;
-
-  if (attach?.size > 0) {
-    const fileRes = await fetch(`${SERVER}/files`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-      },
-      body: formData,
-    });
-
-    if (!fileRes.ok) {
-      throw new Error('파일 업로드 실패');
-    }
-    const fileData: MultiItem<FileRes> = await fileRes.json();
-
-    userObj.image = fileData.item[0].path;
-  }
-
-  const res = await fetch(`${SERVER}/users`, {
-    method: 'POST',
-    headers: {
-      'client-id': `${DBNAME}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userObj),
-  });
-
-  return res.json();
+  userObj.image = await handleImageUpload(formData);
+  return addUser(userObj);
 }
 
-export async function editUser(formData: FormData): Promise<ApiResWithValidation<SingleItem<UserData>, UserForm>> {
+export async function editUser(formData: FormData): Promise<SingleItem<UserInfo>> {
   const session = await auth();
 
-  const userObj = {
-    type: formData.get('type') || 'seller',
-    name: formData.get('name'),
-    // email: formData.get('email'),
-    password: formData.get('password'),
-    phone: formData.get('phone'),
-    address: formData.get('address'),
-    image: '',
+  const image = await handleImageUpload(formData);
+  const userObj: Partial<UserForm> = {
+    name: formData.get('name')?.toString(),
+    password: formData.get('password')?.toString(),
+    phone: formData.get('phone')?.toString(),
+    address: formData.get('address')?.toString(),
   };
-
-  const attach = formData.get('attach') as File;
-
-  if (attach?.size > 0) {
-    const fileRes = await fetch(`${SERVER}/files`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-      },
-      body: formData,
-    });
-
-    if (!fileRes.ok) {
-      throw new Error('파일 업로드 실패');
-    }
-    const fileData: MultiItem<FileRes> = await fileRes.json();
-
-    userObj.image = fileData.item[0].path;
-  }
-
-  const res = await fetch(`${SERVER}/users/${session?.user?.id}`, {
-    method: 'PATCH',
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session?.accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userObj),
-  });
-
-  const resData = await res.json();
-
-  return resData;
+  image !== '' ? (userObj.image = image) : null;
+  return updateUserInfo(session?.user?.id!, session?.accessToken!, userObj);
 }
+
+const handleImageUpload = async (formData: FormData): Promise<string> => {
+  const attach = formData.get('attach') as File;
+  if (attach?.size > 0) {
+    const fileData = await uploadImage(formData);
+    return fileData.item[0].path;
+  }
+  return '';
+};

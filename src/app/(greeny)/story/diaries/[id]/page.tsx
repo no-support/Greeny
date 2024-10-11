@@ -1,5 +1,5 @@
 import diaryDetailStyles from '@greeny/story/diaries/[id]/DiaryDetail.module.scss';
-import { fetchDiary, fetchPlant } from '@/app/api/fetch/postFetch';
+import { fetchDiary } from '@/app/api/fetch/postFetch';
 import UserProfile from '@components/UserProfile';
 import Like from '@greeny/story/Like';
 import { formatAgo } from '@/utils/date';
@@ -13,6 +13,7 @@ import { DiaryRes } from '@/types/post';
 import { Metadata, ResolvingMetadata } from 'next';
 import PostLayout from '@greeny/story/PostLayout';
 import { format } from 'date-fns';
+import { getPlantDetail } from '@/app/api/fetch/plantFetch';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
@@ -39,7 +40,7 @@ export async function generateMetadata({ params: { id } }: { params: { id: strin
 export default async function DiaryDetail({ params: { id } }: { params: { id: string } }) {
   const diary: DiaryRes = await fetchDiary(id);
   const session = await auth();
-  const plantDetail = await fetchPlant(diary.product_id.toString());
+  const { item: plantDetail } = await getPlantDetail(diary.product_id.toString());
   const bookmarkId = plantDetail.myBookmarkId;
   const plant = diary.product;
   const isMyPlant = Number(session?.user?.id) === diary.seller_id;

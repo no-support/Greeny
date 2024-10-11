@@ -2,7 +2,8 @@
 import styles from './BookmarkList.module.scss';
 import { isPlantBookmark, isUserBookmark, PlantBookmark, UserBookmark } from '@/types/bookmark';
 import BookmarkItem from './(bookmarkItem)/BookmarkItem';
-import { getBookmarksByUserId, removeBookmark } from '@/app/api/fetch/bookmarkFetch';
+import { removeBookmark } from '@/app/api/fetch/bookmarkFetch';
+import { getBookmarksByUserId } from '@/app/api/fetch/userFetch';
 import { useBookmarkedSearchFormStore } from '@/store/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Spinner from '@/components/spinner/Spinner';
@@ -23,7 +24,10 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
   const queryClient = useQueryClient();
   const bookmarkQuery = useQuery({
     queryKey: ['bookmarkList', userId, type],
-    queryFn: () => getBookmarksByUserId(userId),
+    queryFn: async () => {
+      const { item } = await getBookmarksByUserId(userId);
+      return item;
+    },
   });
   const { data, isLoading, isError } = bookmarkQuery;
 

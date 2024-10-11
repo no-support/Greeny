@@ -19,14 +19,14 @@ const userFormSchema = z.object({
   password: z.string().min(8, '비밀번호 형식이 올바르지 않습니다.'),
   phone: z.string().min(10, '전화번호를 10자리 이상 입력하세요.'),
   address: z.string().min(10, '주소는 10자 이상이어야 합니다.'),
-  // 'use client'를 통해 클라이언트에서만 수행되지만, 빌드 타임에 window가 없어서 에러가 발생하는 것을 방지하기 위해 조건부로 추가
+  // 서버 측에서 에러가 발생하는 것을 방지하기 위해 조건부로 추가
   attach: typeof window !== 'undefined' && typeof FileList !== 'undefined' ? z.instanceof(FileList).optional() : z.any(),
 });
 
 type FormValues = z.infer<typeof userFormSchema>;
 
 export default function EditForm({ user }: { user: UserInfo }) {
-  const { register, handleSubmit, setError, watch, control } = useForm<FormValues>({
+  const { register, handleSubmit, watch, control } = useForm<FormValues>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
       name: user.name,
@@ -46,30 +46,22 @@ export default function EditForm({ user }: { user: UserInfo }) {
     }
   }, [attachFile]);
 
-  const onSubmit = async (formData: FormValues) => {
-    const userForm = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
+  const onSubmit = async (formValues: FormValues) => {
+    const formData = new FormData();
+    Object.entries(formValues).forEach(([key, value]) => {
       if (key !== 'attach' && value !== undefined) {
-        userForm.append(key, value as string);
+        formData.append(key, value as string);
       }
     });
-    if (formData.attach instanceof FileList) {
-      userForm.append('attach', formData.attach[0]);
+    if (formValues.attach instanceof FileList) {
+      formData.append('attach', formValues.attach[0]);
     }
 
-    const resData = await editUser(userForm);
-    if (resData.ok) {
-      alert(`프로필 수정이 완료되었습니다.\n재로그인 해주세요.`);
-      signOut({
-        callbackUrl: '/login',
-      });
-    } else {
-      if ('errors' in resData) {
-        resData.errors.forEach((error) => setError(error.path as keyof FormValues, { message: error.msg }));
-      } else if (resData.message) {
-        alert(resData.message);
-      }
-    }
+    await editUser(formData);
+    alert(`프로필 수정이 완료되었습니다.\n재로그인 해주세요.`);
+    signOut({
+      callbackUrl: '/login',
+    });
   };
 
   return (

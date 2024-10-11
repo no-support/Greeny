@@ -1,14 +1,14 @@
 'use server';
 
 import { auth } from '@/auth';
-import { FileRes, ImageRes } from '@/types/image';
+import { ImageRes } from '@/types/image';
 import { PostComment } from '@/types/post';
-import { CoreErrorRes, CoreSuccessRes, MultiItem, SingleItem } from '@/types/response';
+import { CoreErrorRes, SingleItem } from '@/types/response';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { addBookmark, removeBookmark } from '../fetch/bookmarkFetch';
+import { patchPost, patchReply, postPost, postReply, removePost, removeReply } from '@/app/api/fetch/postFetch';
+import { uploadImage } from '../fetch/fileFetch';
 
 export async function addPost(formData: FormData) {
   const session = await auth();
@@ -17,255 +17,114 @@ export async function addPost(formData: FormData) {
   const imageFiles = formData.getAll('attach') as File[];
   const images = imageFiles[0]?.size > 0 ? await uploadFile(imageFiles) : [];
 
-  const data = {
+  const body = {
     type: 'post',
     image: images,
     title: formData.get('title'),
     content: formData.get('content'),
     extra: { category },
   };
-
-  try {
-    await fetch(`${SERVER}/posts`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-      body: JSON.stringify(data),
-    });
-  } catch (error) {
-    throw new Error('network error');
-  }
+  await postPost(session?.accessToken!, body);
   revalidatePath('/story/community');
   redirect('/story/community');
 }
 
-export async function updatePost(postId: number, originalImage: ImageRes[], formData: FormData) {
+export async function updatePost(postId: number, originalImage: ImageRes[], formData: FormData, ...rest: any) {
   const session = await auth();
-  const category = formData.get('category');
+  const category = formData.get('category')?.toString();
 
   const imageFiles = formData.getAll('attach') as File[];
   const images = imageFiles[0]?.size > 0 ? await uploadFile(imageFiles) : [];
 
-  const data = {
+  const body = {
     image: [...originalImage, ...images!],
-    title: formData.get('title'),
-    content: formData.get('content'),
+    title: formData.get('title')?.toString(),
+    content: formData.get('content')?.toString(),
     extra: { category },
   };
-
-  try {
-    await fetch(`${SERVER}/posts/${postId}`, {
-      method: 'PATCH',
-      headers: {
-        'client-id': `${DBNAME}`,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-      body: JSON.stringify(data),
-    });
-  } catch (error) {
-    throw new Error('network error');
-  }
+  await patchPost(postId, session?.accessToken!, body);
   revalidatePath('/story/community');
   redirect('/story/community');
 }
 
 async function uploadFile(imageFiles: File[]) {
-  try {
-    const imgFormData = new FormData();
-    imageFiles.forEach((imageFile) => imgFormData.append('attach', imageFile));
-    const res = await fetch(`${SERVER}/files`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-      },
-      body: imgFormData,
-    });
-    const resJson: MultiItem<FileRes> | CoreErrorRes = await res.json();
-    if (resJson.ok) {
-      return resJson.item.map((image) => ({
-        path: image.path,
-        name: image.originalname,
-      }));
-    }
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const imgFormData = new FormData();
+  imageFiles.forEach((imageFile) => imgFormData.append('attach', imageFile));
+  const fileResList = await uploadImage(imgFormData);
+  return fileResList.item.map((fileRes) => ({
+    path: fileRes.path,
+    name: fileRes.originalname,
+  }));
 }
 
 export async function deletePost(postId: string) {
   const session = await auth();
-  try {
-    await fetch(`${SERVER}/posts/${postId}`, {
-      method: 'DELETE',
-      headers: {
-        'client-id': `${DBNAME}`,
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-    });
-  } catch (error) {
-    throw new Error('network error');
-  }
+  await removePost(postId, session?.accessToken!);
   revalidatePath(`/story/community`);
   redirect('/story/community');
 }
 
 export async function deleteDiary(postId: string) {
   const session = await auth();
-  try {
-    await fetch(`${SERVER}/posts/${postId}`, {
-      method: 'DELETE',
-      headers: {
-        'client-id': `${DBNAME}`,
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-    });
-  } catch (error) {
-    throw new Error('network error');
-  }
+  await removePost(postId, session?.accessToken!);
   revalidatePath(`/story/diaries`);
   redirect('/story/diaries');
 }
 
 export async function addReply(postId: string, formData: FormData): Promise<SingleItem<PostComment> | CoreErrorRes> {
   const session = await auth();
-  const data = {
-    content: formData.get('content'),
+  const body = {
+    content: formData.get('content')?.toString()!,
   };
-
-  try {
-    const res = await fetch(`${SERVER}/posts/${postId}/replies`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-      body: JSON.stringify(data),
-    });
-    revalidatePath(`/story/community/${postId}`);
-    return res.json();
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const data = await postReply(postId, session?.accessToken!, body);
+  revalidatePath(`/story/community/${postId}`);
+  return data;
 }
 
 export async function updateReply(postId: string, replyId: number, formData: FormData): Promise<SingleItem<PostComment> | CoreErrorRes> {
   const session = await auth();
-  const data = {
-    content: formData.get('content'),
+  const body = {
+    content: formData.get('content')?.toString()!,
   };
-
-  try {
-    const res = await fetch(`${SERVER}/posts/${postId}/replies/${replyId}`, {
-      method: 'PATCH',
-      headers: {
-        'client-id': `${DBNAME}`,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-      body: JSON.stringify(data),
-    });
-    const resJson = await res.json();
-    revalidatePath(`/story/community/${postId}`);
-    return resJson;
-  } catch (error) {
-    console.log('error', error);
-    throw new Error('network error');
-  }
+  const data = await patchReply(postId, replyId, session?.accessToken!, body);
+  revalidatePath(`/story/community/${postId}`);
+  return data;
 }
 
-export async function deleteReply(postId: string, replyId: number): Promise<CoreSuccessRes | CoreErrorRes> {
+export async function deleteReply(postId: string, replyId: number) {
   const session = await auth();
-  try {
-    const res = await fetch(`${SERVER}/posts/${postId}/replies/${replyId}`, {
-      method: 'DELETE',
-      headers: {
-        'client-id': `${DBNAME}`,
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-    });
-    revalidatePath(`/story/community/${postId}`);
-    return res.json();
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const data = await removeReply(postId, replyId, session?.accessToken!);
+  revalidatePath(`/story/community/${postId}`);
+  return data;
 }
 
 export async function likePost(targetId: string, content: string) {
   const session = await auth();
-  try {
-    const res = await fetch(`${SERVER}/bookmarks/post`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-      body: JSON.stringify({ target_id: Number(targetId), memo: content }),
-    });
-    revalidatePath(`/story/community/${targetId}`);
-    revalidatePath(`/story/diaries/${targetId}`);
-    revalidatePath(`/story/diaries`);
-    return res.json();
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const data = await addBookmark('post', Number(targetId), session?.accessToken!, content);
+  revalidatePath(`/story/community/${targetId}`);
+  revalidatePath(`/story/diaries/${targetId}`);
+  revalidatePath(`/story/diaries`);
+  return data;
 }
 
-export async function cancelLikePost(bookmarkId: string) {
+export async function cancelLikePost(bookmarkId: number) {
   const session = await auth();
-  try {
-    const res = await fetch(`${SERVER}/bookmarks/${bookmarkId}`, {
-      method: 'DELETE',
-      headers: {
-        'client-id': `${DBNAME}`,
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-    });
-    revalidatePath(`/story/community`);
-    revalidatePath(`/story/diaries`);
-    return res.json();
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const data = await removeBookmark(Number(bookmarkId), session?.accessToken!);
+  revalidatePath(`/story/community`);
+  revalidatePath(`/story/diaries`);
+  return data;
 }
 
-export async function followPlant(targetId: string) {
+export async function followPlant(targetId: number) {
   const session = await auth();
-  try {
-    const res = await fetch(`${SERVER}/bookmarks/product`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-      body: JSON.stringify({ target_id: Number(targetId) }),
-    });
-    revalidatePath(`/story/diaries/${targetId}`);
-    return res.json();
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const data = await addBookmark('product', targetId, session?.accessToken!);
+  revalidatePath(`/story/diaries/${targetId}`);
+  return data;
 }
 
-export async function unfollowPlant(bookmarkId: string) {
+export async function unfollowPlant(bookmarkId: number) {
   const session = await auth();
-  try {
-    const res = await fetch(`${SERVER}/bookmarks/${bookmarkId}`, {
-      method: 'DELETE',
-      headers: {
-        'client-id': `${DBNAME}`,
-        Authorization: `Bearer ${session?.accessToken}`,
-      },
-    });
-    revalidatePath(`/story/diaries`);
-    return res.json();
-  } catch (error) {
-    throw new Error('network error');
-  }
+  const data = await removeBookmark(bookmarkId, session?.accessToken!);
+  revalidatePath(`/story/diaries`);
+  return data;
 }

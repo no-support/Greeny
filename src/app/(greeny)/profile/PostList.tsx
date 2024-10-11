@@ -2,12 +2,12 @@ import styles from './PostList.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/button/Button';
-import { fetchPostsByUserId } from '@/app/api/fetch/postFetch';
+import { getPostsByUserId } from '@/app/api/fetch/postFetch';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export default async function PostList(id: string, isMe: boolean) {
-  const postData = await fetchPostsByUserId(id);
+  const postData = await getPostsByUserId(id);
   if (!postData.ok) {
     return postData.message;
   }

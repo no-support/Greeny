@@ -7,7 +7,7 @@ import { auth } from '@/auth';
 import { Metadata } from 'next';
 import Profile from '../Profile';
 import LogoutButton from './LogoutButton';
-import { fetchUserInfo } from '@/app/api/fetch/userFetch';
+import { getUserInfo } from '@/app/api/fetch/userFetch';
 
 export const metadata: Metadata = {
   title: 'Profile',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  const loginUserData = await fetchUserInfo(session!.user?.id!);
+  const loginUserData = await getUserInfo(session!.user?.id!);
 
   return (
     <div className={styles.page_container}>

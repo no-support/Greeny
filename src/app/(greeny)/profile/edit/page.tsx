@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import EditForm from './EditForm';
 import { Metadata } from 'next';
-import { fetchUserInfo } from '@/app/api/fetch/userFetch';
+import { getUserInfo } from '@/app/api/fetch/userFetch';
 
 export const metadata: Metadata = {
   title: 'Profile Edit',
@@ -20,7 +20,7 @@ export default async function Page() {
     throw new Error('No session or user found');
   }
 
-  const userInfo = await fetchUserInfo(session.user.id!);
+  const userInfo = await getUserInfo(session.user.id!);
 
   return <EditForm user={userInfo.item} />;
 }

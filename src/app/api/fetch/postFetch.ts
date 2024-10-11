@@ -1,11 +1,17 @@
 import { auth } from '@/auth';
-import { PlantRes } from '@/types/plant';
-import { DiaryRes, PostComment, PostRes } from '@/types/post';
-import { CoreErrorRes, MultiItem, SingleItem } from '@/types/response';
+import { DiaryForm, DiaryRes, PostComment, PostRes } from '@/types/post';
+import { ApiResWithValidation, CoreErrorRes, CoreSuccessRes, MultiItem, SingleItem } from '@/types/response';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 const LIMIT = process.env.NEXT_PUBLIC_LIMIT;
 const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+
+async function getAuthHeader() {
+  const session = await auth();
+  const authorizationHeader: { Authorization: string } | {} = session ? { Authorization: `Bearer ${session.accessToken}` } : {};
+
+  return authorizationHeader;
+}
 
 export async function fetchPosts(params?: { page?: string; keyword?: string; category?: string }) {
   const searchParams = new URLSearchParams();
@@ -79,28 +85,7 @@ export async function fetchReply(id: string) {
   return resJson.item;
 }
 
-export async function fetchPlant(plantId: string) {
-  const url = `${SERVER}/products/${plantId}`;
-  const res = await fetch(url, {
-    headers: {
-      'client-id': `${DBNAME}`,
-      ...(await getAuthHeader()),
-    },
-  });
-  const resJson: SingleItem<PlantRes> | CoreErrorRes = await res.json();
-  if (!resJson.ok) throw new Error(resJson.message);
-
-  return resJson.item;
-}
-
-async function getAuthHeader() {
-  const session = await auth();
-  const authorizationHeader: { Authorization: string } | {} = session ? { Authorization: `Bearer ${session.accessToken}` } : {};
-
-  return authorizationHeader;
-}
-
-export async function fetchPostsByUserId(userId: string) {
+export async function getPostsByUserId(userId: string) {
   const url = `${SERVER}/posts/users/${userId}?type=post`;
   const res = await fetch(url, {
     headers: {
@@ -109,4 +94,102 @@ export async function fetchPostsByUserId(userId: string) {
   });
   const resJson: MultiItem<PostRes> | CoreErrorRes = await res.json();
   return resJson;
+}
+
+export async function removeReply(postId: string, replyId: number, token: string): Promise<CoreSuccessRes> {
+  const url = `${SERVER}/posts/${postId}/replies/${replyId}`;
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'client-id': `${DBNAME}`,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
+export async function patchReply(postId: string, replyId: number, token: string, body: { content: string }) {
+  const url = `${SERVER}/posts/${postId}/replies/${replyId}`;
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'client-id': `${DBNAME}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
+export async function postReply(postId: string, token: string, body: { content: string }) {
+  const url = `${SERVER}/posts/${postId}/replies`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'client-id': `${DBNAME}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
+export async function removePost(postId: string, token: string) {
+  const url = `${SERVER}/posts/${postId}`;
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'client-id': `${DBNAME}`,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
+export async function patchPost(postId: number, token: string, body: any) {
+  const url = `${SERVER}/posts/${postId}`;
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'client-id': `${DBNAME}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
+export async function postPost(token: string, body: any): Promise<ApiResWithValidation<SingleItem<DiaryRes>, DiaryForm>> {
+  const url = `${SERVER}/posts`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'client-id': `${DBNAME}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
 }

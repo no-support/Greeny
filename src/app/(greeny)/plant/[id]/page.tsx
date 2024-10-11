@@ -1,9 +1,7 @@
 import styles from './MyPlantDetail.module.scss';
-import { fetchPlantsDetail, fetchPlantsLike } from '@/app/api/fetch/plantFetch';
-import { PlantRes } from '@/types/plant';
+import { getPlantDetail } from '@/app/api/fetch/plantFetch';
 import { differenceInDays } from 'date-fns';
 import { auth } from '@/auth';
-import { PlantBookmark } from '@/types/bookmark';
 import FollowButton from './FollowButton';
 import Tab from '@/components/tab/Tab';
 import PlantInfo from './PlantInfo';
@@ -12,6 +10,8 @@ import { Metadata, ResolvingMetadata } from 'next';
 import Image from 'next/image';
 import plantEdit from '@images/PlantEdit.svg';
 import Link from 'next/link';
+import { getMyBookmarks } from '@/app/api/fetch/bookmarkFetch';
+import { PlantBookmark } from '@/types/bookmark';
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export async function generateMetadata({ params }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
@@ -31,12 +31,11 @@ export async function generateMetadata({ params }: { params: { id: string } }, p
 
 export default async function MyPlantDetail({ params }: { params: { id: string } }) {
   const session = await auth();
-  const item = await fetchPlantsDetail<PlantRes>(params.id);
-  const bookmarkData = await fetchPlantsLike<PlantBookmark>(session?.accessToken);
-
-  const currentDay = item.adoptionDate;
+  const { item } = await getPlantDetail(params.id);
+  const { item: bookmarkData } = await getMyBookmarks<PlantBookmark>('product', session?.accessToken!);
+  const adoptionDate = item.adoptionDate;
   const toDay = new Date();
-  const diffDays = differenceInDays(toDay, currentDay);
+  const diffDays = differenceInDays(toDay, adoptionDate!);
 
   return (
     <div className={styles.plantDetail_wrapper}>
@@ -88,7 +87,7 @@ export default async function MyPlantDetail({ params }: { params: { id: string }
         </div>
       </div>
 
-      {session?.user?.id == item.seller_id ? (
+      {session?.user?.id == String(item.seller_id) ? (
         <p className={styles.plant_with}>
           `{item.name}`와 함께한지 {diffDays}일째에요!
         </p>

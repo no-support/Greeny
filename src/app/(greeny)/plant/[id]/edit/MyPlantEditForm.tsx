@@ -13,6 +13,7 @@ import { PlantForm, PlantRes } from '@/types/plant';
 import { format } from 'date-fns';
 import { plantEdit } from '@/app/api/actions/plantAction';
 import useModal from '@/hooks/useModal';
+import { uploadImage } from '@/app/api/fetch/fileFetch';
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
@@ -114,21 +115,7 @@ export default function MyPlantEditForm({ item }: { item: PlantRes }) {
 
       if (dirtyFields.attach && formData.attach) {
         plantEditForm.append('attach', formData.attach[0]);
-
-        const fileRes = await fetch(`${SERVER}/files`, {
-          method: 'POST',
-          headers: {
-            'client-id': `${DBNAME}`,
-          },
-          body: plantEditForm,
-        });
-
-        if (!fileRes.ok) {
-          throw new Error('파일 업로드 실패');
-        }
-
-        const fileData = await fileRes.json();
-
+        const fileData = await uploadImage(plantEditForm);
         plantEditForm.append('mainImages', JSON.stringify([{ path: fileData.item[0].path, name: fileData.item[0].name }]));
       } else {
         plantEditForm.append('mainImages', JSON.stringify(item.mainImages));

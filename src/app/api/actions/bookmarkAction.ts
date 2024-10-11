@@ -1,37 +1,19 @@
 'use server';
 import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { addBookmark, removeBookmark } from '../fetch/bookmarkFetch';
 
 //식물 북마크
-export async function followPlant(id: string | undefined) {
+export async function followPlant(id: string) {
   const session = await auth();
-  const url = `${SERVER}/bookmarks/product`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'client-id': `${DBNAME}`,
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-    body: JSON.stringify({ target_id: Number(id) }),
-  });
+  const data = await addBookmark('product', Number(id), session?.accessToken!);
   revalidatePath(`/plant/${id}`);
-  return res.json();
+  return data;
 }
 
 export async function unFollowPlant(id: number | undefined) {
   const session = await auth();
-  const url = `${SERVER}/bookmarks/${id}`;
-  const res = await fetch(url, {
-    method: 'DELETE',
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  });
+  const data = await removeBookmark(id!, session?.accessToken!);
   revalidatePath(`/plant/${id}`);
-  return res.json();
+  return data;
 }

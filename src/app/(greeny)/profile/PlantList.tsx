@@ -2,15 +2,14 @@ import styles from './PlantList.module.scss';
 import Link from 'next/link';
 import PlantThumbnail from './PlantThumbnail';
 import Button from '@/components/button/Button';
-import { fetchPlantList } from '@/app/api/fetch/plantFetch';
+import { getPlantListBySellerId } from '@/app/api/fetch/plantFetch';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export default async function PlantList(id: string, isMe: boolean) {
-  const plantData = await fetchPlantList(id);
-  if (!plantData.ok) return plantData.message;
+  const plantListRes = await getPlantListBySellerId(id);
 
-  if (isMe && plantData.item.length === 0) {
+  if (isMe && plantListRes.item.length === 0) {
     return (
       <div className={styles.zero_item_noti_container}>
         <div className={styles.zero_item_noti}>
@@ -25,7 +24,7 @@ export default async function PlantList(id: string, isMe: boolean) {
       </div>
     );
   }
-  const firstItem = plantData.item.map((plant) => {
+  const firstItem = plantListRes.item.map((plant) => {
     const src = plant.mainImages.at(0)?.path === '' ? '' : `${SERVER}${plant.mainImages.at(0)?.path}`;
     return <PlantThumbnail key={plant._id} href={`/plant/${plant._id}`} src={src} />;
   });

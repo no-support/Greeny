@@ -1,17 +1,14 @@
 'use server';
 
 import { auth } from '@/auth';
-import { FileRes, ImageRes } from '@/types/image';
-import { PlantForm, PlantRes } from '@/types/plant';
-import { DiaryForm, DiaryRes } from '@/types/post';
-import { ApiResWithValidation, MultiItem, SingleItem } from '@/types/response';
+import { ImageRes } from '@/types/image';
 import { revalidatePath } from 'next/cache';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { uploadImage } from '../fetch/fileFetch';
+import { patchPost, postPost } from '../fetch/postFetch';
+import { patchPlant, postPlant, deletePlant } from '../fetch/plantFetch';
 
 //다이어리 추가
-export async function DiaryNew(formData: FormData, id: string): Promise<ApiResWithValidation<SingleItem<DiaryRes>, DiaryForm>> {
+export async function DiaryNew(formData: FormData, id: string) {
   const session = await auth();
   const diaryObj = {
     type: formData.get('type') || 'diary',
@@ -25,43 +22,19 @@ export async function DiaryNew(formData: FormData, id: string): Promise<ApiResWi
   const attach = formData.get('attach') as File;
 
   if (attach && attach?.size > 0) {
-    const fileRes = await fetch(`${SERVER}/files`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-      },
-      body: formData,
-    });
-
-    if (!fileRes.ok) {
-      throw new Error('파일 업로드 실패');
-    }
-    const fileData: MultiItem<FileRes> = await fileRes.json();
-
-    // console.log(fileData);
-    if (fileData.ok) {
-      diaryObj.image = fileData.item.map((image) => ({
-        path: image.path,
-        name: image.originalname,
-      }));
-    }
+    const fileData = await uploadImage(formData);
+    diaryObj.image = fileData.item.map((image) => ({
+      path: image.path,
+      name: image.originalname,
+    }));
   }
 
-  const res = await fetch(`${SERVER}/posts`, {
-    method: 'POST',
-    headers: {
-      'client-id': `${DBNAME}`,
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-    body: JSON.stringify(diaryObj),
-  });
-  const resJson = await res.json();
-  return resJson;
+  const data = await postPost(session?.accessToken!, diaryObj);
+  return data;
 }
 
 // 다이어리 수정
-export async function DiaryEdit(diaryId: number | undefined, plantId: number | undefined, formData: FormData, originImage: ImageRes[]) {
+export async function DiaryEdit(diaryId: number, plantId: number | undefined, formData: FormData, originImage: ImageRes[]) {
   const session = await auth();
   const mainImages = formData.getAll('attach') as File[];
 
@@ -70,15 +43,7 @@ export async function DiaryEdit(diaryId: number | undefined, plantId: number | u
     imgFormData.append('attach', imageFile);
   });
 
-  const fileRes = await fetch(`${SERVER}/files`, {
-    method: 'POST',
-    headers: {
-      'client-id': `${DBNAME}`,
-    },
-    body: imgFormData,
-  });
-
-  const fileData = await fileRes.json();
+  const fileData = await uploadImage(imgFormData);
   const newImages = fileData.item.map((file: ImageRes) => ({
     path: file.path,
     name: file.name,
@@ -92,26 +57,15 @@ export async function DiaryEdit(diaryId: number | undefined, plantId: number | u
     image: [...originImage, ...newImages],
   };
 
-  const url = `${SERVER}/posts/${diaryId}`;
-  const res = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'client-id': `${DBNAME}`,
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-    body: JSON.stringify(diaryObj),
-  });
-
-  const resJson = await res.json();
+  const data = await patchPost(diaryId, session?.accessToken!, diaryObj);
 
   revalidatePath(`/plant/${diaryId}/diaryEdit`);
   revalidatePath(`/plant/${plantId}`);
-  return resJson;
+  return data;
 }
 
 //식물 추가
-export async function plantNew(formData: FormData): Promise<ApiResWithValidation<SingleItem<PlantRes>, PlantForm>> {
+export async function plantNew(formData: FormData) {
   const session = await auth();
   const plantObj = {
     price: 999,
@@ -129,19 +83,7 @@ export async function plantNew(formData: FormData): Promise<ApiResWithValidation
   const attach = formData.get('attach') as File;
 
   if (attach?.size > 0) {
-    const fileRes = await fetch(`${SERVER}/files`, {
-      method: 'POST',
-      headers: {
-        'client-id': `${DBNAME}`,
-      },
-      body: formData,
-    });
-
-    if (!fileRes.ok) {
-      throw new Error('파일 업로드 실패');
-    }
-    const fileData: MultiItem<FileRes> = await fileRes.json();
-
+    const fileData = await uploadImage(formData);
     plantObj.mainImages = [
       {
         path: fileData.item[0].path,
@@ -149,36 +91,17 @@ export async function plantNew(formData: FormData): Promise<ApiResWithValidation
       },
     ];
   }
-
-  const res = await fetch(`${SERVER}/seller/products`, {
-    method: 'POST',
-    headers: {
-      'client-id': `${DBNAME}`,
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-    body: JSON.stringify(plantObj),
-  });
-  const resJson = await res.json();
+  const data = await postPlant(session?.accessToken!, plantObj);
   revalidatePath('/plant');
-  return resJson;
+  return data;
 }
 
 //식물 삭제
-export async function plantsDelete(id: number | undefined) {
+export async function plantsDelete(id: number) {
   const session = await auth();
-
-  const url = `${SERVER}/seller/products/${id}`;
-  const res = await fetch(url, {
-    method: 'DELETE',
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  });
-  const resJson = await res.json();
+  const data = await deletePlant(id, session?.accessToken!);
   revalidatePath('/plant');
-  return resJson;
+  return data;
 }
 
 export async function plantEdit(id: number | undefined, formData: FormData) {
@@ -198,20 +121,8 @@ export async function plantEdit(id: number | undefined, formData: FormData) {
     content: formData.get('content'),
     mainImages: parsedMainImages,
   };
-
-  const url = `${SERVER}/seller/products/${id}`;
-  const res = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'client-id': `${DBNAME}`,
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-    body: JSON.stringify(plantObj),
-  });
-
+  const data = await patchPlant(id!, session?.accessToken!, plantObj);
   revalidatePath(`/plant/${id}/edit`);
   revalidatePath('/plant');
-  const resJson = await res.json();
-  return resJson;
+  return data;
 }

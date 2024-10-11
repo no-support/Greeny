@@ -43,6 +43,9 @@ export interface PostBookmark extends BookmarkHeader {
   post: Post;
   memo?: string;
 }
+
+export type BookmarkType = UserBookmark | PlantBookmark | PostBookmark;
+
 export interface Bookmark {
   byUser: { user_id: number; name: string; emai: string; image: string }[];
   user: UserBookmark[];
@@ -56,4 +59,11 @@ export function isPlantBookmark(bookmarkList: PlantBookmark[] | UserBookmark[] |
 
 export function isUserBookmark(bookmarkList: PlantBookmark[] | UserBookmark[] | undefined): bookmarkList is UserBookmark[] {
   return bookmarkList !== undefined && (bookmarkList as UserBookmark[])[0]?.user !== undefined;
+}
+
+export interface AddBookmarkRes extends BookmarkHeader {
+  type: 'product' | 'user' | 'post';
+  user_id: number;
+  target_id: number;
+  user: Partial<User>;
 }

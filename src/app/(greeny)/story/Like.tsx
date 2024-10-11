@@ -20,7 +20,7 @@ export default function Like({ number, targetId, bookmarkId, content, isLoggedIn
 
     likePost.bind(null, targetId, content)();
   };
-  const cancelLikePostWithId = () => bookmarkId && cancelLikePost.bind(null, bookmarkId.toString())();
+  const cancelLikePostWithId = () => bookmarkId && cancelLikePost.bind(null, bookmarkId)();
 
   return (
     <form action={isFilled ? cancelLikePostWithId : likePostWithId} className={styles.icon_container}>

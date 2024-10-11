@@ -8,9 +8,9 @@ import promptLoginModal from '@/utils/confirm';
 export default function FollowBtn({ plantId, bookmarkId, isLoggedIn }: { plantId: number; bookmarkId: number | undefined; isLoggedIn: boolean }) {
   const followPlantWithId = () => {
     if (!isLoggedIn) return promptLoginModal();
-    followPlant.bind(null, plantId.toString())();
+    followPlant.bind(null, plantId)();
   };
-  const unfollowPlantWithId = () => bookmarkId && unfollowPlant.bind(null, bookmarkId.toString())();
+  const unfollowPlantWithId = () => bookmarkId && unfollowPlant.bind(null, bookmarkId)();
 
   return (
     <form action={bookmarkId ? unfollowPlantWithId : followPlantWithId}>

@@ -2,7 +2,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import styles from './Bookmark.module.scss';
 import Button from '@/components/button/Button';
-import { addBookmarkByUserId, getMyBookmarksByUser, removeBookmark } from '@/app/api/fetch/bookmarkFetch';
+import { addBookmark, getMyBookmarks, removeBookmark } from '@/app/api/fetch/bookmarkFetch';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { UserBookmark } from '@/types/bookmark';
@@ -14,12 +14,12 @@ export default function Bookmark() {
 
   const bookmarkQuery = useQuery({
     queryKey: ['bookmark', _id],
-    queryFn: () => getMyBookmarksByUser(session.data?.accessToken!),
+    queryFn: () => getMyBookmarks<UserBookmark>('user', session.data?.accessToken!),
   });
   const { status, data: myBookmarkedUsersData } = bookmarkQuery;
 
   const addMutation = useMutation({
-    mutationFn: () => addBookmarkByUserId(Number(_id), session.data?.accessToken!),
+    mutationFn: () => addBookmark('user', Number(_id), session.data?.accessToken!),
     onSuccess: () => {
       bookmarkQuery.refetch();
     },

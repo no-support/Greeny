@@ -110,9 +110,9 @@ export default function DiaryEditForm({ item }: { item: DiaryRes }) {
   const [originImg, setOriginImg] = useState<ImageRes[]>(item.image);
   const originImgURL = item?.image.map((item) => `${SERVER}${item.path}`);
   const [imagePreviews, setImagePreviews] = useState<string[]>(originImgURL);
-  const images = watch('attach') || [];
 
   useEffect(() => {
+    const images = watch('attach') || [];
     if (images && images.length > 0) {
       if (images.length > 5) {
         alert('이미지는 최대 5개 등록 가능합니다.');
@@ -132,7 +132,7 @@ export default function DiaryEditForm({ item }: { item: DiaryRes }) {
         reader.readAsDataURL(file);
       });
     }
-  }, [images]);
+  }, [watch, alert]);
 
   const handleDeleteImage = (index: number) => {
     const newPreviews = imagePreviews.filter((_, i) => i !== index);

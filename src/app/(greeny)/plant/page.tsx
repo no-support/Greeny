@@ -6,6 +6,7 @@ import { PlantRes } from '@/types/plant';
 import { auth } from '@/auth';
 import { differenceInDays } from 'date-fns';
 import { Metadata } from 'next';
+import { getAllPlants } from '@/app/api/fetch/plantFetch';
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
@@ -21,16 +22,10 @@ export const metadata: Metadata = {
 
 export default async function MyPlant() {
   const session = await auth();
-
   if (!session) return '로그인 만료';
-  const res = await fetch(`${SERVER}/seller/products`, {
-    headers: {
-      'client-id': `${DBNAME}`,
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  });
-  const resJson = await res.json();
-  const data = resJson && resJson.item;
+
+  const plantRes = await getAllPlants(session.accessToken);
+  const data = plantRes && plantRes.item;
 
   const myPlantList = data?.map((item: PlantRes) => {
     const currentDay: Date | null = item.adoptionDate;
