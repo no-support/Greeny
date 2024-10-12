@@ -6,7 +6,7 @@
 
 ## 팀 소개
 
-|                                                      **이경민(팀장)**                                                      |                                                             **노지원**                                                              |                                                  **신민철**                                                   |
+|                                                   **이경민(팀장)**                                                   |                                                             **노지원**                                                              |                                                  **신민철**                                                   |
 | :------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
 | <img width="180" alt="baduck" src="https://github.com/user-attachments/assets/2134800a-67c0-4a93-9bf9-5abfe73279df"> | <img width="180" alt="no_supply_profile_img" src="https://github.com/user-attachments/assets/bad008fa-6f51-48b8-89b0-144881052996"> | <img width="180" alt="mincheol.shin_profile_img" src="https://avatars.githubusercontent.com/u/110030523?v=4"> |
 |                                      [🔗 kyungmim](https://github.com/kyungmim)                                      |                                           [🔗 no-support](https://github.com/no-support)                                            |                             [🔗 shin-mincheol](https://github.com/shin-mincheol)                              |
@@ -47,8 +47,7 @@
 
 🌿**Greeny**는 **내 식물의 성장 기록과 다른 식물의 여정을 함께하는, 식물 애호가들을 위한 소셜 네트워크**입니다.
 
-> 식물 백과를 통해 다양한 **식물들의 키우는 방법과 정보**를 손쉽게 확인할 수 있습니다. 식물을 등록하여 여러분의 식물을 자랑해주세요. <br/>
-> **식물 일기**를 작성해 소중한 기억들을 기록하고, 추억들을 **다른 식집사분들과 나누어보세요.** <br/>
+> 식물 백과를 통해 다양한 **식물들의 키우는 방법과 정보**를 손쉽게 확인할 수 있습니다. 식물을 등록하여 여러분의 식물을 자랑해주세요. <br/> > **식물 일기**를 작성해 소중한 기억들을 기록하고, 추억들을 **다른 식집사분들과 나누어보세요.** <br/>
 > 또한, 커뮤니티를 통해 **다른 식집사분들과 정보를 공유**하며 더 많은 가드닝 팁과 노하우를 얻어보세요!
 
 <br/>
@@ -86,7 +85,7 @@
 
 <br />
 
-### [라이브러리 사용 이유]
+### [사용한 주요 라이브러리와 사용 근거]
 
 <table class="tg">
 <tbody>
@@ -96,7 +95,11 @@
   </tr>
   <tr>
     <td class="tg-0pky">React Hook Form</td>
-    <td class="tg-0pky">HTTP 요청과 응답 처리를 보다 단순하고 직관적으로 처리하기 위해 사용</td>
+    <td class="tg-0pky">폼 상태 관리</td>
+  </tr>
+    <tr>
+    <td class="tg-0pky">zod</td>
+    <td class="tg-0pky">데이터 유효성 검증</td>
   </tr>
   <tr>
     <td class="tg-0pky">Husky</td>
@@ -110,16 +113,80 @@
     <td class="tg-0pky">Swiper</td>
     <td class="tg-0pky">meta 태그와 페이지별 타이틀을 위해 사용</td>
   </tr>
+  <tr>
+    <td class="tg-0pky">Zustand</td>
+    <td class="tg-0pky">떨어져 있는 컴포넌트 간 데이터 전달</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Storybook</td>
+    <td class="tg-0pky">현업에서 있을 디자인 팀과의 소통을 위해 사용</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">MSW</td>
+    <td class="tg-0pky">백엔드 팀에서 API 구현 완료할 때까지 기다려야 하는 대기 시간을 줄이기 위해 API mocking library 사용</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Radix</td>
+    <td class="tg-0pky">잘 만들어진, 커스텀한 스타일링이 가능한, 접근성이 고려된 Headless UI 컴포넌트를 통해, 클라이언트 컴포넌트로 만들지 않아도 되는 탭 컴포넌트 구현용으로 사용</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">React-query</td>
+    <td class="tg-0pky">클라이언트 컴포넌트에서 비동기 데이터 요청, 무한 스크롤, 캐시 관리용</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Sharp</td>
+    <td class="tg-0pky">이미지 최적화용</td>
+  </tr>  
 </tbody>
 </table>
 
 <br />
 
-## 3. 핵심 기능
+### [데이터 처리 흐름 시퀀스 다이어그램]
+
+```mermaid
+sequenceDiagram
+    participant RSC as RSC(server-component)
+    participant Client as client-component
+    participant ServerAction
+    participant Fetch
+    participant Backend
+
+    rect rgb(191, 223, 255)
+    RSC--)Fetch: 데이터 요청 함수 호출
+    Fetch--)Backend: fetch
+    Backend--)Fetch: Promise<response>
+    Fetch--)RSC:데이터(Promise<객체, 배열로 파싱된 응답 본문>) 반환
+    end
+
+    Note right of RSC: 또는
+
+    rect rgb(200, 150, 255)
+    Client--)Fetch: 데이터 요청 함수 호출
+    Fetch--) Backend: fetch
+    Backend--)Fetch: Promise<response>
+    Fetch--)Client:데이터 반환
+    end
+
+    Note right of RSC: 또는
+
+
+    rect rgb(200, 150, 255)
+    Client--)+ServerAction: 서버 액션 호출
+    ServerAction--)Fetch: 데이터 요청 함수 호출
+    Fetch --)Backend: fetch(post, put, delete)
+    Backend--)Fetch: Promise<response>
+    Fetch--)ServerAction:데이터 반환
+    ServerAction--)-Client:최종 데이터 반환
+    end
+```
+
+## 3. 핵심 기능(반응형)
 
 ### 홈
 
 배너, 추천 식물, 다른 식집사분들의 일기, 게시글들을 한 눈에 확인해 보세요.
+나와 어울리는 식물을 MBTI 테스트를 통해 알아보는 이벤트 페이지도 있습니다.
 |홈 메인|
 |:-:|
 |<img width="240px;" src="https://github.com/user-attachments/assets/0355f4ef-d94c-49ba-8a9e-910badad726d">|
@@ -234,30 +301,11 @@
 
 ![플로우차트](https://github.com/user-attachments/assets/88ec72e8-cb34-4e8d-9322-c495f2031397)
 
-## 7. 트러블 슈팅
-
-- 로그인
-  next-auth 모듈을 사용해서 로그인할 때, `signInWithCredentials` 함수 내부의 `redirect` 함수가 동작하지 않는 문제가 발생했습니다. <br/>대체 방법으로 'next/navigation' 모듈로부터 `useRouter` 훅의 `push` 메서드를 통해 로그인 성공 시 페이지 이동을 하였고 리팩터링 때 원인을 파악해 해결할 예정입니다.
-- Open API 사용
-  Open API를 통해 식물 데이터를 받아올 때 XML 방식 전달된 데이터를 JSON으로 파싱(xml2json 모듈 사용)하였고 불필요하고 정제가 필요한 값을 함수를 제작해 필터링하여 JSON 파일로 만들어 사용하였습니다.<br/>
-  현재 방식은 데이터 통신이 없어 응답 속도가 빠르다는 장점이 있지만, 식물 데이터를 새로 추가하려 할 때면 새로 배포를 해야 하는 등 확장성 내지 유지보수 측면에서 분명한 단점이 있어서 앞으로는 일정 주기마다 Open API의 데이터 요청을 통해 DB를 최신화하는 리팩터링 작업을 진행할 예정입니다.
-
 <br/>
 
-## 8. 리팩터링 계획
+## 8. 깨달은 것
 
-### 웹 반응형 디자인
-
-본 프로젝트는 앱을 주요 플랫폼으로 설정하고 있으나, 웹 사용자의 접근성을 고려하여 반응형 웹 디자인을 구현예정입니다.
-
-### 성향 검사 및 식물 추천 페이지
-
-초기 기획 리스트에 포함된 주요 기능 중 하나인 성향 검사 및 식물 추천 페이지는 메인 기능 리스트에서 후순위로 밀려 시간 제약으로 인해 리팩토링 리스트에 추가되었습니다.
-
-### 공공 데이터 처리
-
-현재 공공 데이터는 로컬에 저장하여 사용 중입니다. 이를 데이터베이스에 저장하고, 공공 데이터와 통신하여 데이터를 파싱하고 필요한 정보를 필터링하는 함수를 개발할 예정입니다. 이를 통해 식물 데이터가 주기적으로 업데이트되도록 할 것입니다.
-
-### 식물 데이터 시각화
-
-현재 식물 데이터는 단순한 문자 형식으로 표시되고 있습니다. 이를 개선하기 위해, 식물 데이터를 그래프로 시각화하여 사용자와의 상호작용을 높이고 가독성을 향상시킬 계획입니다.
+- 페이지별로 역할 분배함으로 인해 비슷한 컴포넌트를 여럿 만듦으로써 나중으로 갈수록 재사용성과 생산성 낮아짐
+- scss 사용 경험 회고: 손이 많이 가며, 변수명 짓기 힘듦. 더 나중에 나온 ui 라이브러리(headless ui 라이브러리라던지, tailwindcss라던지...)를 사용하는 게 작은 프로젝트 시 생산성 측면에서 나을 듯.
+- 기획, 디자인을 직접 만들고, 백엔드는 구현 진행 중인 상황에서 개발을 한 후기: 프론트엔드는 기획, 디자인, 백엔드 팀과 소통이 중요하며 이들간의 소통에 병목이 없어야 빠른 개발을 할 수 있음(스토리북, MSW 라이브러리를 사용하게 된 계기가 됨)
+- 프론트엔드 개발자가 여럿일 때, 적어도 초기 역할 분배는 페이지별이 아닌, 소통 파트별이 나을 듯(ex. 각각 프론트-디자인 팀 간 협업을 위해 컴포넌트 디자인, 프론트-백엔드 팀 간 협업을 위해 api mock data 생성 및 타입 설계, 프론트-기획 팀 간 협업을 위해 페이지 설계 E2E 테스트 코드 생성)
