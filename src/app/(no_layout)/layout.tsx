@@ -6,6 +6,7 @@ import '@/styles/common.css';
 import '@/styles/variable.css';
 import { ModalContextProvider } from '@/contexts/ModalContext';
 import ReactQueryProvider from '../config/ReactQueryProvider';
+import { MSWProvider } from '@/components/MSWProvider';
 
 const pretendard = localFont({
   src: '../../../public/fonts/PretendardVariable.woff2',
@@ -48,11 +49,13 @@ export default function RootLayout({
       </head>
       <body>
         <div className={styles.root}>
-          <ReactQueryProvider>
-            <ModalContextProvider>
-              <main className={styles.main}>{children}</main>
-            </ModalContextProvider>
-          </ReactQueryProvider>
+          <MSWProvider>
+            <ReactQueryProvider>
+              <ModalContextProvider>
+                <main className={styles.main}>{children}</main>
+              </ModalContextProvider>
+            </ReactQueryProvider>
+          </MSWProvider>
         </div>
       </body>
     </html>

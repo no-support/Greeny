@@ -10,6 +10,7 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
 import { ModalContextProvider } from '@/contexts/ModalContext';
 import ReactQueryProvider from '../config/ReactQueryProvider';
+import { MSWProvider } from '@/components/MSWProvider';
 
 const pretendard = localFont({
   src: '../../../public/fonts/PretendardVariable.woff2',
@@ -52,15 +53,17 @@ export default async function RootLayout({
       </head>
       <body>
         <div className={styles.root}>
-          <ReactQueryProvider>
-            <ModalContextProvider>
-              <SessionProvider>
-                <Header />
-                <main className={styles.main}>{children}</main>
-                <Footer session={session} />
-              </SessionProvider>
-            </ModalContextProvider>
-          </ReactQueryProvider>
+          <MSWProvider>
+            <ReactQueryProvider>
+              <ModalContextProvider>
+                <SessionProvider>
+                  <Header />
+                  <main className={styles.main}>{children}</main>
+                  <Footer session={session} />
+                </SessionProvider>
+              </ModalContextProvider>
+            </ReactQueryProvider>
+          </MSWProvider>
         </div>
       </body>
     </html>
