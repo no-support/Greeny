@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 import promptLoginModal from '@/utils/confirm';
 import useCheckViewportWidthByThreshold from '@/hooks/useCheckViewportWidthByThreshold';
+import CommentAddIcon from '@images/CommentAddIcon.svg';
 
 const THRESHOLD = 768;
 
@@ -32,7 +33,7 @@ export default function ReplyInput({ postId, isLoggedin }: { postId: string; isL
     <form action={addReplyWithId} className={`${styles.reply_form} ${isBiggerThanThreshold === true ? `${styles.reply_form_over_threshold}` : ''}`}>
       <input type="text" placeholder="댓글을 입력해주세요." name="content" value={content} onChange={(e) => setContent(e.target.value)} minLength={1} ref={inputRef} />
       <button className={styles.btn_submit} type="submit">
-        <Image src="/images/CommentAddIcon.svg" width={18} height={18} alt="send" />
+        <Image src={CommentAddIcon} width={18} height={18} alt="send" />
       </button>
     </form>
   );

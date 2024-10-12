@@ -4,6 +4,8 @@ import styles from '@greeny/story/Community.module.scss';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import SearchIcom from '@images/SearchIcon.svg';
+import CloseIcon from '@images/CloseIcon.svg';
 
 export default function Search() {
   const pathname = usePathname();
@@ -37,12 +39,12 @@ export default function Search() {
               inputRef.current!.focus();
             }}
           >
-            <Image src="/images/CloseIcon.svg" width={13} height={13} alt="search" />
+            <Image src={CloseIcon} width={13} height={13} alt="search" />
           </button>
         )}
       </div>
       <button type="submit" className={styles.btn_submit}>
-        <Image src="/images/SearchIcon.svg" width={18} height={18} alt="search" />
+        <Image src={SearchIcom} width={18} height={18} alt="search" />
       </button>
     </form>
   );

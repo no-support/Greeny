@@ -11,6 +11,7 @@ import Button from '@/components/button/Button';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import FollowerDelete from '@images/FollowerDelete.svg';
 
 interface BookmarkListProps {
   isMe: boolean;
@@ -82,7 +83,7 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
                 radiusStyle="curve"
                 disabled={deletingId === plantBookmark._id}
               >
-                {deletingId === plantBookmark._id ? <Spinner size="xs" /> : <Image src="/images/FollowerDelete.svg" alt="북마크 삭제" width={18} height={18} />}
+                {deletingId === plantBookmark._id ? <Spinner size="xs" /> : <Image src={FollowerDelete} alt="북마크 삭제" width={18} height={18} />}
               </Button>
             )}
           </BookmarkItem>
@@ -106,7 +107,7 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
                 radiusStyle="curve"
                 disabled={deletingId === userBookmark._id}
               >
-                {deletingId === userBookmark._id ? <Spinner size="xs" /> : <Image src="/images/FollowerDelete.svg" alt="북마크 삭제" width={18} height={18} />}
+                {deletingId === userBookmark._id ? <Spinner size="xs" /> : <Image src={FollowerDelete} alt="북마크 삭제" width={18} height={18} />}
               </Button>
             )}
           </BookmarkItem>

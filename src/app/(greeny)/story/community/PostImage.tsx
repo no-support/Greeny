@@ -5,6 +5,7 @@ import postStyles from '@greeny/story/community/Post.module.scss';
 import Image from 'next/image';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import PhotoDeleteIcon from '@images/PhotoDeleteIcon.svg';
 
 type Props = {
   originalImage: ImageRes[];
@@ -49,7 +50,7 @@ export default function PostImage({ originalImage, setOriginalImage }: Props) {
               <SwiperSlide key={i} className={postStyles.slider}>
                 <Image src={url} alt={url} sizes="100%" fill className={postStyles.preview_image} />
                 <button type="button" onClick={() => handleDeleteImage(i)} className={postStyles.delete}>
-                  <Image src="/images/PhotoDeleteIcon.svg" width={24} height={24} alt="close" className={postStyles.delete_icon} />
+                  <Image src={PhotoDeleteIcon} width={24} height={24} alt="close" className={postStyles.delete_icon} />
                 </button>
               </SwiperSlide>
             ))}

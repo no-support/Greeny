@@ -10,6 +10,8 @@ import plantList from '@/app/data/plantList';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Input from '@/components/input/Input';
+import SearchIcon from '@images/SearchIcon.svg';
+import FilterIcon from '@images/FilterIcon.svg';
 
 interface FormData {
   keyword: string;
@@ -68,10 +70,10 @@ export default function UI() {
           <Input type="search" placeholder="식물명을 입력해주세요" {...register('keyword')} />
           <div className={styles.btn_wrapper}>
             <button type="submit" className={styles.search_btn}>
-              <Image src="/images/SearchIcon.svg" width={18} height={18} alt="search" />
+              <Image src={SearchIcon} width={18} height={18} alt="search" />
             </button>
             <button type="button" className={styles.filter_btn} onClick={openModal}>
-              <Image src="/images/FilterIcon.svg" width={18} height={18} alt="filter" />
+              <Image src={FilterIcon} width={18} height={18} alt="filter" />
             </button>
           </div>
         </form>

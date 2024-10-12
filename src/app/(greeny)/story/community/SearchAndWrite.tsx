@@ -3,6 +3,7 @@ import postStyles from '@greeny/story/community/Post.module.scss';
 import Search from '@greeny/story/Search';
 import Image from 'next/image';
 import Link from 'next/link';
+import PostAddIcon from '@images/PostAddIcon.svg';
 
 export default function SearchAndWrite() {
   return (
@@ -11,7 +12,7 @@ export default function SearchAndWrite() {
         <Search />
       </div>
       <Link href="/story/community/new" className={postStyles.btn_write}>
-        <Image src="/images/PostAddIcon.svg" width={18} height={18} alt="write" />
+        <Image src={PostAddIcon} width={18} height={18} alt="write" />
       </Link>
     </div>
   );
