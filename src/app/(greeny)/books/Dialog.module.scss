@@ -1,5 +1,41 @@
 @import '@styles/mixin';
 
+.filter_btn {
+  @include flex-horizontal(0);
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+  background: var(--color-primary);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  @include mobile {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.filter_btn {
+  background-color: var(--color-white);
+  border: 0.1rem solid var(--color-primary);
+}
+
+.btn_wrapper {
+  @include flex-horizontal(1rem);
+  justify-content: center;
+}
+
+.Overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+// from Filter.module.scss
 .filter_wrapper {
   @include flex-vertical(3rem);
 
@@ -102,5 +138,51 @@
   .btn_wrapper {
     @include flex-horizontal(1rem);
     justify-content: center;
+  }
+}
+
+.Content {
+  background-color: white;
+  border-radius: 2rem;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  // width: 90vw;
+  width: 100%;
+  // max-width: 500px;
+  max-width: 55rem;
+  // padding: 25px;
+  padding: 4rem 3.2rem;
+  min-width: 31.2rem;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  // overflow-y: scroll;
+  z-index: 20;
+  &:focus {
+    outline: none;
+  }
+  @include mobile {
+    padding: 3rem 2rem;
+  }
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }

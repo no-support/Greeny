@@ -29,7 +29,7 @@ export default function Search() {
   return (
     <form onSubmit={handleSubmit} className={styles.search_form}>
       <div>
-        <input ref={inputRef} type="text" placeholder="식물명, 질문을 입력해주세요." value={query} onChange={(e) => setQuery(e.target.value)} />
+        <input ref={inputRef} type="search" placeholder="식물명 또는 게시글 제목 을 입력해주세요." value={query} onChange={(e) => setQuery(e.target.value)} />
         {query && (
           <button
             type="reset"

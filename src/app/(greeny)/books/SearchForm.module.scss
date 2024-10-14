@@ -1,0 +1,25 @@
+@import '@styles/mixin';
+
+.search_form {
+  @include flex-horizontal(1.2rem);
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 1;
+}
+.search_btn {
+  @include flex-horizontal(0);
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+  background: var(--color-primary);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+
+  @include mobile {
+    width: 4rem;
+    height: 4rem;
+  }
+}

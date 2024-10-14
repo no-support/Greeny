@@ -40,6 +40,7 @@
         @include flex-horizontal(1rem);
         justify-content: center;
         align-items: center;
+        flex-grow: 1;
 
         .search_btn,
         .filter_btn {
