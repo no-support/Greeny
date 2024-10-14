@@ -10,8 +10,8 @@ export const getMockMyBookmarks: HttpHandler = http.get('https://api.fesp.shop/b
         createdAt: '2024.10.06 20:38:16',
         user: {
           _id: 5,
-          name: '목데이터이름',
-          email: 'hello@world.com',
+          name: '모킹',
+          email: '모킹 - hello@world.com',
           image: '/files/03-Greeny/plant2.webp',
           type: 'seller',
         },
