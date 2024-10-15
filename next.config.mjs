@@ -14,7 +14,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    instrumentationHook: true,
+    instrumentationHook: process.env.NEXT_PUBLIC_MOCKING === 'true',
   },
 };
 
