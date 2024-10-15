@@ -162,7 +162,7 @@ sequenceDiagram
     Note right of RSC: 또는
 
     rect rgb(200, 150, 255)
-    Client--)Fetch: 데이터 요청 함수 호출
+    Client--)Fetch: 데이터 요청 함수 호출(react-query)
     Fetch--) Backend: fetch
     Backend--)Fetch: Promise<response>
     Fetch--)Client:데이터 반환
@@ -309,3 +309,4 @@ sequenceDiagram
 - scss 사용 경험 회고: 손이 많이 가며, 변수명 짓기 힘듦. 더 나중에 나온 ui 라이브러리(headless ui 라이브러리라던지, tailwindcss라던지...)를 사용하는 게 작은 프로젝트 시 생산성 측면에서 나을 듯.
 - 기획, 디자인을 직접 만들고, 백엔드는 구현 진행 중인 상황에서 개발을 한 후기: 프론트엔드는 기획, 디자인, 백엔드 팀과 소통이 중요하며 이들간의 소통에 병목이 없어야 빠른 개발을 할 수 있음(스토리북, MSW 라이브러리를 사용하게 된 계기가 됨)
 - 프론트엔드 개발자가 여럿일 때, 적어도 초기 역할 분배는 페이지별이 아닌, 소통 파트별이 나을 듯(ex. 각각 프론트-디자인 팀 간 협업을 위해 컴포넌트 디자인, 프론트-백엔드 팀 간 협업을 위해 api mock data 생성 및 타입 설계, 프론트-기획 팀 간 협업을 위해 페이지 설계 E2E 테스트 코드 생성)
+- scss 사용 경험 회고2: 굳이 scss를 쓸 필요가 없다. 2023년 말부터 모든 브라우저에서 css nesting을 지원한다는 것을 알게 됨.

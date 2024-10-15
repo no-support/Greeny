@@ -1,5 +1,5 @@
 import styles from '@greeny/story/Community.module.scss';
-import { formatAgo } from '@/utils/date';
+import { formatAgo } from '@/utils/format';
 import Like from '@greeny/story/Like';
 import { PostRes } from '@/types/post';
 

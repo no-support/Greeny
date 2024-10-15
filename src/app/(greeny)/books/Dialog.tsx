@@ -45,12 +45,12 @@ export default function Dialog() {
           </VisuallyHidden.Root>
           <form className={styles.filter_wrapper} onSubmit={handleSubmit}>
             <div className={styles.filter_group}>
-              <CheckboxGroup groupNm="grwhstleCode" options={grwhstleOptions} title="식물의 종류를 선택해주세요." />
-              <CheckboxGroup groupNm="flclrCode" options={flclrOptions} title="식물의 꽃 색을 선택해주세요." />
-              <CheckboxGroup groupNm="fmldecolrCode" options={fmldecolrOptions} title="식물의 열매색을 선택해주세요." />
-              <CheckboxGroup groupNm="lefmrkCode" options={lefmrkOptions} title="식물의 잎무늬를 선택해주세요." />
-              <CheckboxGroup groupNm="lighttdemanddoCode" options={lighttdemanddoOptions} title="식물이 필요한 햇빛의 양을 선택해주세요." />
-              <CheckboxGroup groupNm="waterCycleCode" options={waterCycleOptions} title="식물의 물 주기 빈도를 선택해주세요." />
+              <CheckboxGroup groupNm="grwhstleCode" options={grwhstleOptions} initCode={params.getAll('grwhstleCode')} title="식물의 종류를 선택해주세요." />
+              <CheckboxGroup groupNm="flclrCode" options={flclrOptions} initCode={params.getAll('flclrCode')} title="식물의 꽃 색을 선택해주세요." />
+              <CheckboxGroup groupNm="fmldecolrCode" options={fmldecolrOptions} initCode={params.getAll('fmldecolrCode')} title="식물의 열매색을 선택해주세요." />
+              <CheckboxGroup groupNm="lefmrkCode" options={lefmrkOptions} initCode={params.getAll('lefmrkCode')} title="식물의 잎무늬를 선택해주세요." />
+              <CheckboxGroup groupNm="lighttdemanddoCode" options={lighttdemanddoOptions} initCode={params.getAll('lighttdemanddoCode')} title="식물이 필요한 햇빛의 양을 선택해주세요." />
+              <CheckboxGroup groupNm="waterCycleCode" options={waterCycleOptions} initCode={params.getAll('waterCycleCode')} title="식물의 물 주기 빈도를 선택해주세요." />
             </div>
             <div className={styles.btn_wrapper}>
               <AlertDialog.Cancel asChild>

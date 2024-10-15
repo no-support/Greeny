@@ -43,7 +43,7 @@ export default function MyPlantAddForm() {
 
   //식물 'name'
   const selectedPlantName = watch('scientificName');
-  const selectedPlant = plantData.find((p) => p?.cntntsSj === plantName);
+  const selectedPlant = plantData.find((p) => p.name === plantName);
 
   useEffect(() => {
     if (selectedPlant) {
@@ -61,15 +61,15 @@ export default function MyPlantAddForm() {
 
   const plantOptions = plantData.map((plant) => (
     <li
-      key={plant.cntntsNo}
+      key={plant._id}
       onClick={() => {
-        setPlantName(plant.cntntsSj);
-        setValue('scientificName', plant.cntntsSj);
+        setPlantName(plant.name);
+        setValue('scientificName', plant.name);
         setDrop(false);
       }}
       className={styles.dropItem}
     >
-      {plant.cntntsSj}
+      {plant.name}
     </li>
   ));
 

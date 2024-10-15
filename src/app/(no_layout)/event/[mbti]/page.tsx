@@ -24,7 +24,7 @@ export default function ResultMBTI({ params }: { params: { mbti: string } }) {
         <div className={styles.recommended}>
           <h3>나와 어울리는 식물은?</h3>
           <div className={styles.recommended_card}>
-            <Link href={`/books/${result?.recommendedPlants[0].cntntsNo}`} className={styles.recommended_item}>
+            <Link href={`/books/${result?.recommendedPlants[0]._id}`} className={styles.recommended_item}>
               <div className={styles.recommended_cover}>
                 <Image src={`${result?.recommendedPlants[0].rtnFileUrl}`} alt="mbti 결과 추천 식물 이미지" fill sizes="100%" priority />
               </div>
@@ -36,7 +36,7 @@ export default function ResultMBTI({ params }: { params: { mbti: string } }) {
               <p dangerouslySetInnerHTML={{ __html: `${result?.recommendedPlants[0].description}` }}></p>
             </Link>
 
-            <Link href={`/books/${result?.recommendedPlants[1].cntntsNo}`} className={styles.recommended_item}>
+            <Link href={`/books/${result?.recommendedPlants[1]._id}`} className={styles.recommended_item}>
               <div className={styles.recommended_cover}>
                 <Image src={`${result?.recommendedPlants[1].rtnFileUrl}`} alt="mbti 결과 추천 식물 이미지" fill sizes="100%" priority />
               </div>

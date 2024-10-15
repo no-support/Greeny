@@ -2,7 +2,7 @@ import diaryDetailStyles from '@greeny/story/diaries/[id]/DiaryDetail.module.scs
 import { fetchDiary } from '@/app/api/fetch/postFetch';
 import UserProfile from '@components/UserProfile';
 import Like from '@greeny/story/Like';
-import { formatAgo } from '@/utils/date';
+import { formatAgo } from '@/utils/format';
 import DiaryImageSlider from '@greeny/story/diaries/[id]/DiaryImageSlider';
 import { auth } from '@/auth';
 import DiarySubMenu from '@greeny/story/diaries/[id]/DiarySubMenu';

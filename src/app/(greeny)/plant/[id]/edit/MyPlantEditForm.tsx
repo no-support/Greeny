@@ -14,8 +14,8 @@ import { format } from 'date-fns';
 import { plantEdit } from '@/app/api/actions/plantAction';
 import useModal from '@/hooks/useModal';
 import { uploadImage } from '@/app/api/fetch/fileFetch';
+
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export default function MyPlantEditForm({ item }: { item: PlantRes }) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(item.adoptionDate);
@@ -59,7 +59,7 @@ export default function MyPlantEditForm({ item }: { item: PlantRes }) {
 
   //식물 'name'
   const selectedPlantName = watch('scientificName');
-  const selectedPlant = plantData.find((p) => p?.cntntsSj === plantName);
+  const selectedPlant = plantData.find((p) => p.name === plantName);
 
   useEffect(() => {
     if (selectedPlant) {
@@ -77,15 +77,15 @@ export default function MyPlantEditForm({ item }: { item: PlantRes }) {
 
   const plantOptions = plantData.map((plant) => (
     <li
-      key={plant.cntntsNo}
+      key={plant._id}
       onClick={() => {
-        setPlantName(plant.cntntsSj);
-        setValue('scientificName', plant.cntntsSj);
+        setPlantName(plant.name);
+        setValue('scientificName', plant.name);
         setDrop(false);
       }}
       className={styles.dropItem}
     >
-      {plant.cntntsSj}
+      {plant.name}
     </li>
   ));
 

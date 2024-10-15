@@ -17,7 +17,7 @@ export interface ResultList {
 }
 
 interface recommendedPlants {
-  cntntsNo: string;
+  _id: number;
   plantName: string;
   scientificName: string;
   rtnFileUrl: string;

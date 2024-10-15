@@ -8,13 +8,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function TodayPlant() {
-  const [plantInfo, setPlantInfo] = useState<{ plantImg: string; plantName: string; plantEnName: string; plantCod: string }[]>();
+  const [plantInfo, setPlantInfo] = useState<{ plantImg: string; plantName: string; plantEnName: string; plantCod: number }[]>();
 
-  const randomPlantImgUrl: { plantImg: string; plantName: string; plantEnName: string; plantCod: string }[] = (() => {
+  const randomPlantImgUrl: { plantImg: string; plantName: string; plantEnName: string; plantCod: number }[] = (() => {
     const ImgUrl = [];
     for (let i = 1; i <= 5; i++) {
       const randomNum = Math.floor(Math.random() * 216);
-      ImgUrl.push({ plantImg: plant[randomNum].rtnFileUrl, plantName: plant[randomNum].cntntsSj, plantCod: plant[randomNum].cntntsNo, plantEnName: plant[randomNum].plntbneNm });
+      ImgUrl.push({ plantImg: plant[randomNum].rtnFileUrl, plantName: plant[randomNum].name, plantCod: plant[randomNum]._id, plantEnName: plant[randomNum].content });
     }
     return ImgUrl;
   })();

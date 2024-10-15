@@ -1,26 +1,12 @@
 import styles from './page.module.scss';
-import CardList from './CardList';
 import Dialog from './Dialog';
 import SearchForm from './SearchForm';
-import plantList from '@/app/data/plantList';
+import BookList from './BookList';
+import { Suspense } from 'react';
+import Spinner from '@/components/spinner/Spinner';
+import { TSearchParams } from '@/types/plant';
 
-const isEmptyOrIncludes = (param: string | string[] | undefined, value: string) => {
-  return !param || (Array.isArray(param) ? param : [param]).includes(value);
-};
-
-export default function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const plants = plantList.filter((plant) => {
-    return (
-      isEmptyOrIncludes(searchParams.grwhstleCode, plant.grwhstleCode) &&
-      isEmptyOrIncludes(searchParams.flclrCode, plant.flclrCode) &&
-      isEmptyOrIncludes(searchParams.fmldecolrCode, plant.fmldecolrCode) &&
-      isEmptyOrIncludes(searchParams.lefmrkCode, plant.lefmrkCode) &&
-      isEmptyOrIncludes(searchParams.lighttdemanddoCode, plant.lighttdemanddoCode) &&
-      isEmptyOrIncludes(searchParams.waterCycleCode, plant.waterCycleCode) &&
-      (!searchParams.keyword || plant.cntntsSj.includes(searchParams.keyword as string))
-    );
-  });
-
+export default function Page({ searchParams }: { searchParams: TSearchParams }) {
   return (
     <div className={styles.page_container}>
       <div className={styles.search_container}>
@@ -39,7 +25,15 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
           </div>
         </div>
       </div>
-      <CardList cards={plants} />
+      <Suspense
+        fallback={
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Spinner size="lg" />
+          </div>
+        }
+      >
+        <BookList searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import styles from '@greeny/story/Community.module.scss';
 import UserProfile from '@components/UserProfile';
 import ReplyModify from '@greeny/story/community/ReplyModify';
 import { PostComment } from '@/types/post';
-import { formatAgo } from '@/utils/date';
+import { formatAgo } from '@/utils/format';
 import SubMenu from '@greeny/story/community/SubMenu';
 import DropDown, { DropDownOption, DropDownOptionRed } from './DropDown';
 import { useState } from 'react';

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import IconAndNumber from '@greeny/story/IconAndNumber';
 import Link from 'next/link';
 import { PostRes } from '@/types/post';
-import { formatAgo } from '@/utils/date';
+import { formatAgo } from '@/utils/format';
 
 type Props = {
   item: PostRes;

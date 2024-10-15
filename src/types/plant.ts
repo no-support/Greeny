@@ -53,6 +53,14 @@ export interface PlantDetailRes {
 }
 
 export interface PlantJson {
+  _id: number;
+  show: true;
+  active: true;
+  seller_id: 1;
+  price: 999;
+  quantity: 999;
+  name: string;
+  content: string;
   cntntsNo: string;
   cntntsSj: string;
   dlthtsCodeNm: string;
@@ -91,8 +99,6 @@ export interface PlantJson {
   lighttdemanddoCode: string;
   waterCycleCode: string;
 }
-
-// 02. 일반 회원 - 2-1 식물 목록 조회
 export interface PlantListRes extends PlantRes {
   mainImages: ImageRes[];
   seller: {
@@ -110,3 +116,7 @@ export interface PlantListRes extends PlantRes {
   ordersQuantity: number;
   shippingFees: number;
 }
+
+export type TSearchParams = {
+  [key: string]: string | string[] | undefined;
+};

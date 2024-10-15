@@ -11,14 +11,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ISTJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '13186',
+        _id: 13186,
         plantName: '금전수',
         scientificName: 'Zamioculcas zamiifolia',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13186_MF_REPR_ATTACH_01.jpg',
         description: "규칙적인 물주기만으로도 잘 자라는 금전수는 성실함을 중시하는 '<span>정밀한 그린 엔지니어</span>'에게 안성맞춤이에요.",
       },
       {
-        cntntsNo: '12963',
+        _id: 12963,
         plantName: '관음죽',
         scientificName: 'Rhapis excelsa',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/12963_MF_ATTACH_04.jpg',
@@ -36,14 +36,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ISFJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '19717',
+        _id: 19717,
         plantName: '스파티필룸',
         scientificName: 'Spathiphyllum wallisii',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19717_MF_ATTACH_01.gif',
         description: "깔끔하고 정갈한 스파티필룸은 따뜻한 마음씨를 가진 '<span>식물 감성 치유사</span>'에게 평온함을 선사해요.",
       },
       {
-        cntntsNo: '12962',
+        _id: 12962,
         plantName: '관엽베고니아',
         scientificName: 'Begonia  spp.',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/12962_MF_ATTACH_01.jpg',
@@ -61,14 +61,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/INFJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '18654',
+        _id: 18654,
         plantName: '에메랄드리플 페페로미아',
         scientificName: 'Peperomia caperata',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/18654_MF_REPR_ATTACH_01.jpg',
         description: '깊은 녹색 잎사귀가 매력적인 에메랄드리플 페페로미아는 조용한 INFJ에게 평화를 선사해요.',
       },
       {
-        cntntsNo: '13208',
+        _id: 13208,
         plantName: '네오레겔리아',
         scientificName: 'Neoregelia carolinae',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13208_MF_ATTACH_04.jpg',
@@ -86,14 +86,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/INTJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '16449',
+        _id: 16449,
         plantName: '몬스테라',
         scientificName: 'Monstera deliciosa',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/16449_MF_ATTACH_02.jpg',
         description: "시원하게 뚫린 잎사귀가 매력적인 몬스테라는 계획적인 '<span>초록 설계자</span>'에게 안정감을 제공해요.",
       },
       {
-        cntntsNo: '13260',
+        _id: 13260,
         plantName: '크로톤',
         scientificName: 'Codiaeum variegatum',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13260_MF_ATTACH_02.jpg',
@@ -111,14 +111,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ISTP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '14676',
+        _id: 14676,
         plantName: "드라세나  '송오브자마이카'",
         scientificName: "Dracaena reflexa 'Song of Jamaica'",
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/14676_MF_ATTACH_02.jpg',
         description: "변화에 잘 적응하는 드라세나 '송오브자마이카'는 실용적인 '<span>실험적인 그린 탐험가</span>'에게 흥미를 더해요.",
       },
       {
-        cntntsNo: '12974',
+        _id: 12974,
         plantName: '군자란',
         scientificName: 'Clivia miniata',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/12974_MF_ATTACH_02.jpg',
@@ -136,14 +136,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ISFP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '19706',
+        _id: 19706,
         plantName: '수박페페로미아',
         scientificName: 'Peperomia sandersii',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19706_MF_REPR_ATTACH_01.jpg',
         description: "독특한 무늬가 매력적인 수박페페로미아는 예술적인 감각을 가진 '<span>자연의 순간을 포착하는 감성 아티스트</span>'에게 영감을 줘요.",
       },
       {
-        cntntsNo: '19461',
+        _id: 19461,
         plantName: '아이비',
         scientificName: 'Hedera helix',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19461_MF_ATTACH_02.jpg',
@@ -161,14 +161,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/INFP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '19712',
+        _id: 19712,
         plantName: '심비디움',
         scientificName: 'Cymbidium spp.',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19712_MF_REPR_ATTACH_01.JPG',
         description: "우아한 꽃이 매력적인 심비디움은 감성적인 '<span>그린스토리텔러</span>'에게 위로를 선사해요.",
       },
       {
-        cntntsNo: '19474',
+        _id: 19474,
         plantName: '옥살리스(사랑초)',
         scientificName: 'Oxalis triangularis',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19474_MF_REPR_ATTACH_01.jpg',
@@ -186,14 +186,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/INTP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '19463',
+        _id: 19463,
         plantName: '아스플레니움',
         scientificName: 'Asplenium nidus',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19463_MF_REPR_ATTACH_01.jpg',
         description: "시원하게 펼쳐진 잎사귀가 매력적인 아스플레니움은 지적 호기심이 강한 '<span>문제 해결하는 식물 탐정</span>'에게 흥미를 더해요.",
       },
       {
-        cntntsNo: '15829',
+        _id: 15829,
         plantName: '칼라데아 마코야나',
         scientificName: 'Calathea makoyana',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/15829_MF_ATTACH_01.jpg',
@@ -211,14 +211,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ESTP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '19469',
+        _id: 19469,
         plantName: '아글라오네마',
         scientificName: 'Aglaonema commutatum',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19469_MF_ATTACH_04.jpg',
         description: "활기차게 자라는 아글라오네마는 에너지 넘치는 '<span>식물계의 스포트라이트</span>'에게 활력을 불어넣어요.",
       },
       {
-        cntntsNo: '14698',
+        _id: 14698,
         plantName: "드라세나 '트리컬러 레인보우'",
         scientificName: "Dracaena concinna 'Tricolor Rainbow'",
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/14698_MF_ATTACH_01.jpg',
@@ -236,14 +236,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ESFP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '18613',
+        _id: 18613,
         plantName: '부겐빌레아',
         scientificName: 'Bougainvillea glabra',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/18613_MF_ATTACH_02.jpg',
         description: "화려한 꽃이 매력적인 부겐빌레아는 밝고 긍정적인 '<span>초록 파티 메이커</span>'에게 기쁨을 선물해요.",
       },
       {
-        cntntsNo: '13319',
+        _id: 13319,
         plantName: '칼랑코에',
         scientificName: 'Kalanchoe blossfeldiana',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13319_MF_REPR_ATTACH_01.jpg',
@@ -261,14 +261,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ESTJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '12990',
+        _id: 12990,
         plantName: '금목서',
         scientificName: 'Osmanthus fragrans',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/12990_MF_ATTACH_01.jpg',
         description: "관리하기 쉽고 향기로운 금목서는 효율적인 일처리를 중요하게 생각하는 '<span>효율적인 식물 감독관</span>'에게 활력을 불어넣어요.",
       },
       {
-        cntntsNo: '19465',
+        _id: 19465,
         plantName: '아레카야자',
         scientificName: 'Chrysalidocarpus lutescens',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19465_MF_ATTACH_02.jpg',
@@ -286,14 +286,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ESFJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '13338',
+        _id: 13338,
         plantName: '덴파레',
         scientificName: 'Dendrobium phalaenopsis',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13338_MF_ATTACH_02.jpg',
         description: "화려하고 아름다운 덴파레는 사람들과의 관계를 중요하게 생각하는 '<span>그린 팀 리더</span>'에게 기쁨을 선물해요.",
       },
       {
-        cntntsNo: '18694',
+        _id: 18694,
         plantName: '백량금',
         scientificName: 'Ardisia crenata',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/18694_MF_ATTACH_06.jpg',
@@ -311,14 +311,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ENTJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '13248',
+        _id: 13248,
         plantName: '파키라',
         scientificName: 'Pachira aquatica',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13248_MF_ATTACH_02.jpg',
         description: "굵은 줄기가 매력적인 파키라는 목표 지향적인 '<span>전략적인 플랜트 CEO</span>'에게 강한 의지를 심어줘요.",
       },
       {
-        cntntsNo: '18582',
+        _id: 18582,
         plantName: '유카',
         scientificName: 'Yucca',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/18582_MF_ATTACH_02.jpg',
@@ -336,14 +336,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ENTP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '13004',
+        _id: 13004,
         plantName: '틸란드시아',
         scientificName: 'Tillandsia cyanea',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13004_MF_REPR_ATTACH_01.jpg',
         description: "공중에서 자라는 독특한 틸란드시아는 창의적인 '<span>혁신적인 식물 개척자</span>'에게 새로운 아이디어를 떠올리게 해요.",
       },
       {
-        cntntsNo: '13251',
+        _id: 13251,
         plantName: '피토니아 핑크스타',
         scientificName: "Fittonia verschaffeltii 'Pink Star'",
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13251_MF_ATTACH_01.jpg',
@@ -361,14 +361,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ENFP.svg',
     recommendedPlants: [
       {
-        cntntsNo: '13242',
+        _id: 13242,
         plantName: '팬더 고무나무',
         scientificName: 'Ficus panda',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/13242_MF_ATTACH_01.jpg',
         description: "밝은 잎사귀가 매력적인 팬더 고무나무는 낙천적인 '<span>창의적인 그린 드리머</span>'에게 활력을 불어넣어요.",
       },
       {
-        cntntsNo: '19709',
+        _id: 19709,
         plantName: '수박필레아',
         scientificName: 'Pilea cadierei',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/19709_MF_ATTACH_01.jpg',
@@ -386,14 +386,14 @@ const resultData: ResultList[] = [
     resultImage: '/images/ENFJ.svg',
     recommendedPlants: [
       {
-        cntntsNo: '18660',
+        _id: 18660,
         plantName: '안수리움',
         scientificName: 'Anthurium andraeanum',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/18660_MF_ATTACH_03.jpg',
         description: "화려한 꽃이 매력적인 안수리움은 따뜻한 마음씨를 가진 '<span>그린 케어 리더</span>'에게 기쁨을 선물해요.",
       },
       {
-        cntntsNo: '18598',
+        _id: 18598,
         plantName: '엘라티올 베고니아',
         scientificName: 'Begonia X hiemalis',
         rtnFileUrl: 'https://nongsaro.go.kr/cms_contents/301/18598_MF_ATTACH_01.jpg',

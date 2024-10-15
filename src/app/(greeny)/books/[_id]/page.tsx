@@ -1,96 +1,87 @@
 import styles from './page.module.scss';
 import Image from 'next/image';
-import plantList from '@/app/data/plantList';
-import { PlantJson } from '@/types/plant';
+import { getBookDetail } from '@/app/api/fetch/plantFetch';
 
-export default function Page({ params }: { params: { cntntsNo: string } }) {
-  const plant: PlantJson = plantList.filter((plant) => plant.cntntsNo === params.cntntsNo)[0];
-
+export default async function Page({ params: { _id } }: { params: { _id: string } }) {
+  const { item: plant } = await getBookDetail(_id);
   if (!plant) return <div>데이터가 없습니다.</div>;
-
-  // plant를 받아 키값이 ""인 경우 '없음'으로 바꿈
-  const processedPlant: PlantJson = Object.entries(plant).reduce((acc, entry) => {
-    const [key, value] = entry as [keyof PlantJson, string];
-    acc[key] = value === '' ? '없음' : value;
-    return acc;
-  }, {} as PlantJson);
 
   return (
     <div className={styles.page_container}>
       <div className={styles.title_container}>
-        <h2 className={styles.title}>{processedPlant.cntntsSj}</h2>
-        <p className={styles.subtitle}>{processedPlant.plntbneNm}</p>
+        <h2 className={styles.title}>{plant.name}</h2>
+        <p className={styles.subtitle}>{plant.content}</p>
       </div>
 
       <div className={styles.image_wrapper}>
-        <Image src={processedPlant.rtnFileUrl} alt="식물 이미지" className={styles.img} fill sizes="100%" />
+        <Image src={plant.rtnFileUrl} alt="식물 이미지" className={styles.img} fill sizes="100%" />
       </div>
 
       <div className={styles.content_container}>
         <div className={styles.content_item}>
           <h4>물주기</h4>
-          <p>{processedPlant.waterCycle}</p>
+          <p>{plant.waterCycle === '' ? '자료 없음' : plant.waterCycle}</p>
         </div>
         <div className={styles.content_item}>
           <h4>온도</h4>
-          <p>{processedPlant.grwhTpCodeNm}</p>
+          <p>{plant.grwhTpCodeNm === '' ? '자료 없음' : plant.grwhTpCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>습도</h4>
-          <p>{processedPlant.hdCodeNm}</p>
+          <p>{plant.hdCodeNm === '' ? '자료 없음' : plant.hdCodeNm}</p>
         </div>
 
         <div className={styles.content_item}>
           <h4>일조량</h4>
-          <p>{processedPlant.lighttdemanddoCodeNm}</p>
+          <p>{plant.lighttdemanddoCodeNm === '' ? '자료 없음' : plant.lighttdemanddoCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>비료</h4>
-          <p>{processedPlant.frtlzrInfo}</p>
+          <p>{plant.frtlzrInfo === '' ? '자료 없음' : plant.frtlzrInfo}</p>
         </div>
         <div className={styles.content_item}>
           <h4>관리수준</h4>
-          <p>{processedPlant.managelevelCodeNm}</p>
+          <p>{plant.managelevelCodeNm === '' ? '자료 없음' : plant.managelevelCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>관리요구도</h4>
-          <p>{processedPlant.managedemanddoCodeNm}</p>
+          <p>{plant.managedemanddoCodeNm === '' ? '자료 없음' : plant.managedemanddoCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>병해충</h4>
-          <p>{processedPlant.dlthtsCodeNm}</p>
+          <p>{plant.dlthtsCodeNm === '' ? '자료 없음' : plant.dlthtsCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>생육형태</h4>
-          <p>{processedPlant.grwhstleCodeNm}</p>
+          <p>{plant.grwhstleCodeNm === '' ? '자료 없음' : plant.grwhstleCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>생태</h4>
-          <p>{processedPlant.eclgyCodeNm}</p>
+          <p>{plant.eclgyCodeNm === '' ? '자료 없음' : plant.eclgyCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>번식방법</h4>
-          <p>{processedPlant.prpgtEraInfo}</p>
+          <p>{plant.prpgtEraInfo === '' ? '자료 없음' : plant.prpgtEraInfo}</p>
         </div>
         <div className={styles.content_item}>
           <h4>꽃색</h4>
-          <p>{processedPlant.flclrCodeNm}</p>
+          <p>{plant.flclrCodeNm === '' ? '자료 없음' : plant.flclrCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>열매색</h4>
-          <p>{processedPlant.fmldecolrCodeNm}</p>
+          <p>{plant.fmldecolrCodeNm === '' ? '자료 없음' : plant.fmldecolrCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>잎색</h4>
-          <p>{processedPlant.lefcolrCodeNm}</p>
+          <p>{plant.lefcolrCodeNm === '' ? '자료 없음' : plant.lefcolrCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>잎무늬</h4>
-          <p>{processedPlant.lefmrkCodeNm}</p>
+          <p>{plant.lefmrkCodeNm === '' ? '자료 없음' : plant.lefmrkCodeNm}</p>
         </div>
         <div className={styles.content_item}>
           <h4>발화계절</h4>
-          <p>{processedPlant.prpgtEraInfo}</p>
+          <p>{plant.prpgtEraInfo === '' ? '자료 없음' : plant.prpgtEraInfo}</p>
         </div>
       </div>
     </div>

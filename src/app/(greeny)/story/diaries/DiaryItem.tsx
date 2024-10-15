@@ -3,7 +3,7 @@ import Link from 'next/link';
 import UserProfile from '@components/UserProfile';
 import Like from '@greeny/story/Like';
 import { DiaryRes } from '@/types/post';
-import { formatAgo } from '@/utils/date';
+import { formatAgo } from '@/utils/format';
 import Image from 'next/image';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
