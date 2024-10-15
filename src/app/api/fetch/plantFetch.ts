@@ -1,6 +1,5 @@
-import { PlantJson, PlantListRes, PlantRes, TSearchParams } from '@/types/plant';
+import { PlantJson, PlantListRes, PlantRes, TParams } from '@/types/plant';
 import { CoreSuccessRes, MultiItem, SingleItem } from '@/types/response';
-import { toArray } from '@/utils/format';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
@@ -93,13 +92,15 @@ export async function deletePlant(id: number, token: string): Promise<CoreSucces
   }
   return res.json();
 }
+export async function getBookList(pageParam: number, searchParams: TParams): Promise<MultiItem<PlantJson>> {
+  /**
+   * books?keyword=%EB%93%9C&grwhstleCode=054001&grwhstleCode=054002&fmldecolrCode=081001
+   * fetch to
+   * /products?seller_id=777&limit=15&sort={"name":1}&page=${pageParam}
+   * & custom={ "$and": [{ "$or": [{ "grwhstleCode": "054001" }, { "grwhstleCode": "054002" }] },
+   * { "$or": [{ "fmldecolrCode": "081001" }] } ] }
+   */
 
-export async function getBookList(pageParam: number, searchParams: TSearchParams): Promise<MultiItem<PlantJson>> {
-  // http://localhost:3000/books?keyword=%EB%93%9C&grwhstleCode=054001&grwhstleCode=054002&flclrCode=071001&flclrCode=071002&fmldecolrCode=081001&lefmrkCode=070001&lighttdemanddoCode=055001&waterCycleCode=053001
-  // fetch to
-  // /products?seller_id=777&limit=15&sort={"name":1}&page=${pageParam}
-  // & custom={ "$and": [{ "$or": [{ "grwhstleCode": "054001" }, { "grwhstleCode": "054002" }] }, { "$or": [{ "flclrCode": "071001" }, { "flclrCode": "071002" }] },
-  // { "$or": [{ "fmldecolrCode": "081001" }] }, { "$or": [{ "lefmrkCode": "070001" }] }, { "$or": [{ "lighttdemanddoCode": "055001" }] }, { "$or": [{ "waterCycleCode": "053001" }] }] }
   const queryString = createBackendQuery(searchParams);
 
   const url = `${SERVER}${queryString}&page=${pageParam}`;
@@ -113,39 +114,32 @@ export async function getBookList(pageParam: number, searchParams: TSearchParams
   }
   return res.json();
 
-  function createBackendQuery(searchParams: TSearchParams) {
+  function createBackendQuery(searchParams: TParams) {
     const { grwhstleCode, flclrCode, fmldecolrCode, lefmrkCode, lighttdemanddoCode, waterCycleCode, keyword } = searchParams;
-
-    const grwhstleCodeArr = toArray(grwhstleCode);
-    const flclrCodeArr = toArray(flclrCode);
-    const fmldecolrCodeArr = toArray(fmldecolrCode);
-    const lefmrkCodeArr = toArray(lefmrkCode);
-    const lighttdemanddoCodeArr = toArray(lighttdemanddoCode);
-    const waterCycleCodeArr = toArray(waterCycleCode);
 
     const customQuery = {
       $and: [
-        grwhstleCodeArr.length > 0 && {
-          $or: grwhstleCodeArr.map((code) => ({ grwhstleCode: code })),
+        grwhstleCode.length > 0 && {
+          $or: grwhstleCode.map((code) => ({ grwhstleCode: code })),
         },
-        flclrCodeArr.length > 0 && {
-          $or: flclrCodeArr.map((code) => ({ flclrCode: code })),
+        flclrCode.length > 0 && {
+          $or: flclrCode.map((code) => ({ flclrCode: code })),
         },
-        fmldecolrCodeArr.length > 0 && {
-          $or: fmldecolrCodeArr.map((code) => ({ fmldecolrCode: code })),
+        fmldecolrCode.length > 0 && {
+          $or: fmldecolrCode.map((code) => ({ fmldecolrCode: code })),
         },
-        lefmrkCodeArr.length > 0 && {
-          $or: lefmrkCodeArr.map((code) => ({ lefmrkCode: code })),
+        lefmrkCode.length > 0 && {
+          $or: lefmrkCode.map((code) => ({ lefmrkCode: code })),
         },
-        lighttdemanddoCodeArr.length > 0 && {
-          $or: lighttdemanddoCodeArr.map((code) => ({ lighttdemanddoCode: code })),
+        lighttdemanddoCode.length > 0 && {
+          $or: lighttdemanddoCode.map((code) => ({ lighttdemanddoCode: code })),
         },
-        waterCycleCodeArr.length > 0 && {
-          $or: waterCycleCodeArr.map((code) => ({ waterCycleCode: code })),
+        waterCycleCode.length > 0 && {
+          $or: waterCycleCode.map((code) => ({ waterCycleCode: code })),
         },
       ].filter(Boolean), // 조건이 없는 항목은 필터링
     };
-    let queryString = `/products?seller_id=777&limit=15&sort={"name":1}&keyword=${encodeURIComponent((keyword as string) || '')}`;
+    let queryString = `/products?seller_id=777&limit=15&sort={"name":1}&keyword=${encodeURIComponent(keyword || '')}`;
     if (customQuery['$and'].length > 0) {
       queryString += `&custom=${encodeURIComponent(JSON.stringify(customQuery))}`;
     }

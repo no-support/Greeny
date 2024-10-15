@@ -5,10 +5,29 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CardList from './CardList';
-import { TSearchParams } from '@/types/plant';
+import { useSearchParams } from 'next/navigation';
 
-export default function BookList({ searchParams }: { searchParams: TSearchParams }) {
+export default function BookList() {
   const { ref, inView } = useInView();
+
+  const params = useSearchParams();
+  const grwhstleCode = params.getAll('grwhstleCode');
+  const flclrCode = params.getAll('flclrCode');
+  const fmldecolrCode = params.getAll('fmldecolrCode');
+  const lefmrkCode = params.getAll('lefmrkCode');
+  const lighttdemanddoCode = params.getAll('lighttdemanddoCode');
+  const waterCycleCode = params.getAll('waterCycleCode');
+  const keyword = params.get('keyword');
+
+  const searchParams = {
+    grwhstleCode,
+    flclrCode,
+    fmldecolrCode,
+    lefmrkCode,
+    lighttdemanddoCode,
+    waterCycleCode,
+    keyword,
+  };
 
   // useSuspenseInfiniteQuery: null | undedined 체크할 필요 없이 data가 항상 있음을 보장
   // 로딩 상태(data가 undefined)일 때 보여줄 화면은 이 컴포넌트를 호출한 측에서 처리

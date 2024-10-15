@@ -120,3 +120,13 @@ export interface PlantListRes extends PlantRes {
 export type TSearchParams = {
   [key: string]: string | string[] | undefined;
 };
+
+export type TParams = {
+  grwhstleCode: string[];
+  flclrCode: string[];
+  fmldecolrCode: string[];
+  lefmrkCode: string[];
+  lighttdemanddoCode: string[];
+  waterCycleCode: string[];
+  keyword: string | null;
+};

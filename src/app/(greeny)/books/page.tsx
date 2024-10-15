@@ -4,9 +4,8 @@ import SearchForm from './SearchForm';
 import BookList from './BookList';
 import { Suspense } from 'react';
 import Spinner from '@/components/spinner/Spinner';
-import { TSearchParams } from '@/types/plant';
 
-export default function Page({ searchParams }: { searchParams: TSearchParams }) {
+export default function Page() {
   return (
     <div className={styles.page_container}>
       <div className={styles.search_container}>
@@ -32,7 +31,7 @@ export default function Page({ searchParams }: { searchParams: TSearchParams }) 
           </div>
         }
       >
-        <BookList searchParams={searchParams} />
+        <BookList />
       </Suspense>
     </div>
   );

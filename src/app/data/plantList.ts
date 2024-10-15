@@ -1,8 +1,8 @@
 import type { PlantJson } from '@/types/plant';
 
 /**
- * cntntsSj(deprecated) -> name
- * plntbneNm(deprecated) -> content
+ * cntntsSj === name
+ * plntbneNm === content
  */
 const data: PlantJson[] = [
   {
