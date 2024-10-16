@@ -20,9 +20,9 @@ export default function FollowBtn({ plantId, bookmarkId }: Props) {
     if (!data) {
       return (await confirm('로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?')) && push('/login');
     }
-    followPlant.bind(null, plantId.toString())();
+    followPlant.bind(null, plantId)();
   };
-  const unfollowPlantWithId = () => bookmarkId && unfollowPlant.bind(null, bookmarkId.toString())();
+  const unfollowPlantWithId = () => bookmarkId && unfollowPlant.bind(null, bookmarkId)();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     bookmarkId ? unfollowPlantWithId() : followPlantWithId();

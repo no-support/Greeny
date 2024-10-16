@@ -30,7 +30,7 @@ export default function Like({ number, targetId, bookmarkId, content, onLikeClic
   };
   const cancelLikePostWithId = async () => {
     if (!bookmarkId) return;
-    const res = await cancelLikePost.bind(null, bookmarkId.toString())();
+    const res = await cancelLikePost.bind(null, bookmarkId)();
     if (res.ok == 1 && onLikeClick) onLikeClick();
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
