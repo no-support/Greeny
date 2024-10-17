@@ -11322,7 +11322,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '물주기',
-          actionDate: '2024-08-08',
+          actionDate: '2024-10-08',
         },
         image: [
           {
@@ -11349,7 +11349,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-03',
+          actionDate: '2024-10-03',
         },
         image: [
           {
@@ -11376,7 +11376,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-02',
+          actionDate: '2024-10-02',
         },
         image: [
           {
@@ -11403,7 +11403,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-18',
+          actionDate: '2024-10-18',
         },
         image: [
           {
@@ -11430,7 +11430,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '물주기',
-          actionDate: '2024-08-19',
+          actionDate: '2024-10-19',
         },
         image: [
           {
@@ -11457,7 +11457,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '영양',
-          actionDate: '2024-08-14',
+          actionDate: '2024-10-14',
         },
         image: [
           {
@@ -11484,7 +11484,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '물주기',
-          actionDate: '2024-08-14',
+          actionDate: '2024-10-14',
         },
         image: [
           {
@@ -11511,11 +11511,11 @@ export const initData = async (clientId, nextSeq) => {
         product_id: 16,
         seller_id: 8,
         title: '겨울의 동백꽃',
-        content: '이 추운 겨울에 어떻게 그렇게 꽃을 피우니\n너의 강인한 모습 놀라워.',
+        content: '이 추운 날씨에 어떻게 그렇게 꽃을 피우니\n너의 강인한 모습 놀라워.',
         extra: {
           plantState: '개화',
           action: '관찰',
-          actionDate: '2024-01-11',
+          actionDate: '2024-10-11',
         },
         image: [
           {
@@ -11542,7 +11542,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '햇빛',
-          actionDate: '2024-08-09',
+          actionDate: '2024-10-09',
         },
         image: [
           {
@@ -11569,7 +11569,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-26',
+          actionDate: '2024-10-26',
         },
         image: [
           {
@@ -11596,7 +11596,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-20',
+          actionDate: '2024-10-20',
         },
         image: [
           {
@@ -11623,7 +11623,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-22',
+          actionDate: '2024-10-22',
         },
         image: [
           {
@@ -11650,7 +11650,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '아픔',
           action: '관찰',
-          actionDate: '2024-08-25',
+          actionDate: '2024-10-25',
         },
         image: [
           {
@@ -11677,7 +11677,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '아픔',
           action: '영양',
-          actionDate: '2024-08-27',
+          actionDate: '2024-10-27',
         },
         image: [
           {
@@ -11704,7 +11704,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-01',
+          actionDate: '2024-10-01',
         },
         image: [
           {
@@ -11731,7 +11731,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-08',
+          actionDate: '2024-10-08',
         },
         image: [
           {
@@ -11758,7 +11758,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '분갈이',
-          actionDate: '2024-08-03',
+          actionDate: '2024-10-03',
         },
         image: [
           {
@@ -11785,7 +11785,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '아픔',
           action: '영양',
-          actionDate: '2024-08-24',
+          actionDate: '2024-10-24',
         },
         image: [
           {
@@ -11812,7 +11812,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-10',
+          actionDate: '2024-10-10',
         },
         image: [
           {
@@ -11839,7 +11839,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-16',
+          actionDate: '2024-10-16',
         },
         image: [
           {
@@ -11866,7 +11866,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-15',
+          actionDate: '2024-10-15',
         },
         image: [
           {
@@ -11893,7 +11893,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '햇빛',
-          actionDate: '2024-08-18',
+          actionDate: '2024-10-18',
         },
         image: [
           {
@@ -11921,7 +11921,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '물주기',
-          actionDate: '2024-08-09',
+          actionDate: '2024-10-09',
         },
         image: [
           {
@@ -11948,7 +11948,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-17',
+          actionDate: '2024-10-17',
         },
         image: [
           {
@@ -11975,7 +11975,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-01',
+          actionDate: '2024-10-01',
         },
         image: [
           {
@@ -12002,7 +12002,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '분갈이',
-          actionDate: '2024-08-11',
+          actionDate: '2024-10-11',
         },
         image: [
           {
@@ -12037,7 +12037,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '가지',
-          actionDate: '2024-08-10',
+          actionDate: '2024-10-10',
         },
         image: [
           {
@@ -12064,7 +12064,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '개화',
           action: '관찰',
-          actionDate: '2024-08-14',
+          actionDate: '2024-10-14',
         },
         image: [
           {
@@ -12095,7 +12095,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '죽음',
           action: '관찰',
-          actionDate: '2024-08-26',
+          actionDate: '2024-10-26',
         },
         image: [
           {
@@ -12122,7 +12122,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-01',
+          actionDate: '2024-10-01',
         },
         image: [
           {
@@ -12149,7 +12149,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '아픔',
           action: '분갈이',
-          actionDate: '2024-08-25',
+          actionDate: '2024-10-25',
         },
         image: [
           {
@@ -12176,7 +12176,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '개화',
           action: '햇빛',
-          actionDate: '2024-08-18',
+          actionDate: '2024-10-18',
         },
         image: [
           {
@@ -12203,7 +12203,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           plantState: '좋음',
           action: '관찰',
-          actionDate: '2024-08-17',
+          actionDate: '2024-10-17',
         },
         image: [
           {
