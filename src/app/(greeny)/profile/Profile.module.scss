@@ -27,6 +27,9 @@
         object-fit: cover;
       }
     }
+    .hover:hover {
+      border: 0.5rem solid var(--color-gray-50);
+    }
   }
 
   .user_info {

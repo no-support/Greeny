@@ -14,6 +14,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import PostLayout from '@greeny/story/PostLayout';
 import { format } from 'date-fns';
 import { getPlantDetail } from '@/app/api/fetch/plantFetch';
+import { getBookmarksByUserId } from '@/app/api/fetch/userFetch';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
@@ -42,14 +43,21 @@ type Props = {
 };
 
 export default async function DiaryDetail({ params: { id } }: Props) {
+  const session = await auth();
   const diary: DiaryRes = await fetchDiary(id);
   const { item: plantDetail } = await getPlantDetail(diary.product_id.toString());
   const plant = diary.product;
-  const bookmarkId = plantDetail.myBookmarkId;
-  const session = await auth();
+  let likeBookmarkId: number | undefined = undefined;
+  let plantBookmarkId: number | undefined = undefined;
+  if (session?.accessToken) {
+    const bookmarkRes = await getBookmarksByUserId(session.user?.id!);
+    const bookmarkedPost = bookmarkRes.item.post.find((postBookmark) => postBookmark.post._id === Number(id));
+    likeBookmarkId = bookmarkedPost?._id;
+    const bookmarkedPlant = bookmarkRes.item.product.find((plantBookmark) => plantBookmark.product._id === plantDetail._id);
+    plantBookmarkId = bookmarkedPlant?._id;
+  }
   const isMyPlant = Number(session?.user?.id) === diary.seller_id;
   const isWriter = Number(session?.user?.id) === diary.user._id;
-
   return (
     <PostLayout>
       <article className={diaryDetailStyles.article}>
@@ -62,7 +70,7 @@ export default async function DiaryDetail({ params: { id } }: Props) {
               <>
                 <p style={{ color: 'var(--color-gray-10)', fontSize: 12, fontWeight: 'var(--font-regular)', marginLeft: 6 }}>{formatAgo(diary.createdAt)}</p>
                 <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.7rem', alignItems: 'center' }}>
-                  <Like number={diary.bookmarks} targetId={id} bookmarkId={diary.myBookmarkId} content={diary.content} />
+                  <Like number={diary.bookmarks} targetId={id} bookmarkId={likeBookmarkId} content={diary.content} />
                   {isWriter && <DiarySubMenu postId={id} />}
                 </div>
               </>
@@ -98,7 +106,7 @@ export default async function DiaryDetail({ params: { id } }: Props) {
                 <div className={diaryDetailStyles.plant_scientific_name}>{plantDetail.scientificName}</div>
               </div>
             </Link>
-            {!isMyPlant && <FollowBtn plantId={diary.product_id} bookmarkId={bookmarkId} />}
+            {!isMyPlant && <FollowBtn plantId={diary.product_id} bookmarkId={plantBookmarkId} />}
           </div>
           <div>{plantDetail.introduction}</div>
         </div>

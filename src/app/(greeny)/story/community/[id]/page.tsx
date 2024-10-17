@@ -9,6 +9,7 @@ import { PostRes } from '@/types/post';
 import { Metadata, ResolvingMetadata } from 'next';
 import PostLayout from '@greeny/story/PostLayout';
 import ReplyContainer from '@greeny/story/community/ReplyContainer';
+import { getBookmarksByUserId } from '@/app/api/fetch/userFetch';
 
 export const revalidate = 0;
 
@@ -44,6 +45,13 @@ export default async function PostDetail({ params: { id } }: Props) {
   const session = await auth();
   const isWriter = Number(session?.user?.id) === post.user._id;
 
+  let likeBookmarkId: number | undefined;
+  if (session?.accessToken) {
+    const bookmarkRes = await getBookmarksByUserId(session.user?.id!);
+    const bookmarkedPost = bookmarkRes.item.post.find((postBookmark) => postBookmark.post._id === Number(id));
+    likeBookmarkId = bookmarkedPost?._id;
+  }
+
   return (
     <PostLayout>
       <article className={postStyles.detail_container}>
@@ -54,7 +62,7 @@ export default async function PostDetail({ params: { id } }: Props) {
           </div>
           <pre>{post.content}</pre>
           {post.image.length > 0 && <ImageSlider images={post.image} />}
-          <PostInfo post={post} />
+          <PostInfo post={post} likeBookmarkId={likeBookmarkId} />
         </section>
         <ReplyContainer postId={id} />
       </article>

@@ -13,7 +13,9 @@ export async function getMyBookmarks<T extends Type>(type: T, token: string): Pr
     },
   });
   if (!res.ok) {
-    throw new Error(res.statusText);
+    const data = await res.json();
+    console.error(data);
+    throw new Error(data.message);
   }
   return res.json();
 }
@@ -33,9 +35,9 @@ export async function removeBookmark(bookmarkId: number, token: string): Promise
   return res.json();
 }
 
-export async function addBookmark(type: Type, userId: number, token: string, memo?: string): Promise<SingleItem<AddBookmarkRes>> {
+export async function addBookmark(type: Type, targetId: number, token: string, memo?: string): Promise<SingleItem<AddBookmarkRes>> {
   const url = `${SERVER}/bookmarks/${type}`;
-  const body = memo ? { target_id: userId } : { target_id: userId, memo };
+  const body = memo ? { target_id: targetId, memo } : { target_id: targetId };
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -46,7 +48,9 @@ export async function addBookmark(type: Type, userId: number, token: string, mem
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    throw new Error(res.statusText);
+    const data = await res.json();
+    console.error(data);
+    throw new Error(data.message);
   }
   return res.json();
 }

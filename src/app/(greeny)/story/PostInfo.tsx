@@ -5,12 +5,13 @@ import { PostRes } from '@/types/post';
 
 type Props = {
   post: PostRes;
+  likeBookmarkId?: number;
 };
 
-export default async function PostInfo({ post }: Props) {
+export default async function PostInfo({ post, likeBookmarkId }: Props) {
   return (
     <div className={styles.post_info}>
-      <Like number={post.bookmarks} targetId={post._id.toString()} bookmarkId={post.myBookmarkId} content={post.content} />
+      <Like number={post.bookmarks} targetId={post._id.toString()} bookmarkId={likeBookmarkId} content={post.content} />
       <div className={styles.time_and_views}>
         <div>{formatAgo(post.createdAt)}</div>
         <div>조회수 {post.views}</div>

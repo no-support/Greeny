@@ -5,6 +5,7 @@ import Link from 'next/link';
 import NormalProfile from '@images/NormalProfile.svg';
 import { CoreErrorRes, SingleItem } from '@/types/response';
 import { UserInfo } from '@/types/user';
+import clsx from 'clsx';
 
 const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
@@ -14,7 +15,7 @@ export default function Profile({ userInfo, userId, isMovable = false }: { userI
       <div className={styles.statistics_wrapper}>
         <Follow href={`/profile/${userId}/plant`} cnt={userInfo.ok ? userInfo.item.bookmark.products : 0} title="식물" />
         {isMovable ? (
-          <Link className={styles.card_wrapper} href={`/profile/detail`}>
+          <Link className={clsx(styles.card_wrapper, styles.hover)} href={`/profile/detail`}>
             <Image className={styles.card_image} fill sizes="100%" src={userInfo.ok && userInfo.item.image ? `${SERVER}${userInfo.item.image}` : NormalProfile} alt="유저 썸네일 이미지" priority />
           </Link>
         ) : (

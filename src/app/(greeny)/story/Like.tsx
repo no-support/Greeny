@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 type Props = {
   number: number;
   targetId: string;
-  bookmarkId: number | undefined;
+  bookmarkId?: number;
   content: string;
   onLikeClick?: () => void;
 };

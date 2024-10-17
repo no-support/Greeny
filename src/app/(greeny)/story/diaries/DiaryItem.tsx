@@ -1,7 +1,6 @@
 import diaryStyles from '@greeny/story/diaries/Diary.module.scss';
 import Link from 'next/link';
 import UserProfile from '@components/UserProfile';
-import Like from '@greeny/story/Like';
 import { DiaryRes } from '@/types/post';
 import { formatAgo } from '@/utils/format';
 import Image from 'next/image';
@@ -26,9 +25,7 @@ export default function DiaryItem({ diary, onLikeClick }: Props) {
           component={
             <>
               <p style={{ marginLeft: 6, color: 'var(--color-gray-10)', fontSize: 12, fontWeight: 'var(--font-regular)' }}>{formatAgo(diary.createdAt)}</p>
-              <div style={{ marginLeft: 'auto' }}>
-                <Like number={diary.bookmarks} targetId={diary._id.toString()} bookmarkId={diary.myBookmarkId} content={diary.content} onLikeClick={onLikeClick} />
-              </div>
+              <div style={{ marginLeft: 'auto' }}>{/* <Like number={diary.bookmarks} targetId={diary._id.toString()} content={diary.content} onLikeClick={onLikeClick} /> */}</div>
             </>
           }
         />
