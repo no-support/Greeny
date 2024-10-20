@@ -1,0 +1,71 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  # pull_request:
+  #   branches:
+  #     - main
+
+jobs:
+  from-test-to-push-to-ecr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: |
+          echo "node_modules cache-hit is '${{ steps.yarn-cache.outputs.cache-hit}}'"
+          yarn install
+
+      - name: Run tests
+        run: yarn run test:ci
+
+      - name: Disable Next.js Telemetry
+        run: yarn next telemetry disable
+
+      - name: Build
+        run: yarn run build
+
+        # 배포
+      - name: Configure AWS credentials
+        # if: github.ref == 'refs/heads/main'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Log in to Amazon ECR
+        # if: github.ref == 'refs/heads/main'
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and tag the Docker image and push to Amazon ECR
+        # if: github.ref == 'refs/heads/main'
+        run: |
+          # AWS 계정 ID와 ECR URL 설정
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY=${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG=${{ github.sha }}
+
+          # Docker 이미지를 latest와 버전 태그로 빌드
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+          # 도커 이미지를 latest와 버전 태그로 ECR에 푸시
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
