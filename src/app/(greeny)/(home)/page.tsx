@@ -17,6 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  console.log('NEXT_PUBLIC_SAMPLE_ENV: ', process.env.NEXT_PUBLIC_SAMPLE_ENV);
+  console.log('NEXT_SAMPLE_ENV: ', process.env.NEXT_SAMPLE_ENV);
+  console.log('SAMPLE_ENV: ', process.env.SAMPLE_ENV);
+
   const dataDiary = await fetchDiaries();
 
   return (
