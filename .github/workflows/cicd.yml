@@ -64,7 +64,20 @@ jobs:
           IMAGE_TAG=${{ github.sha }}
 
           # Docker 이미지를 latest와 버전 태그로 빌드
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build \
+          --build-arg NEXT_PUBLIC_API_SERVER=${{ secrets.NEXT_PUBLIC_API_SERVER }} \
+          --build-arg NEXT_PUBLIC_LIMIT=${{ secrets.NEXT_PUBLIC_LIMIT }} \
+          --build-arg NEXT_PUBLIC_DB_NAME=${{ secrets.NEXT_PUBLIC_DB_NAME }} \
+          --build-arg GITHUB_CLIENT_ID=${{ secrets.GH_CLIENT_ID }} \
+          --build-arg GITHUB_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }} \
+          --build-arg GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+          --build-arg GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+          --build-arg DB_SERVER=${{ secrets.DB_SERVER }} \
+          --build-arg OPEN_API_KEY=${{ secrets.OPEN_API_KEY }} \
+          --build-arg NEXT_PUBLIC_KAKAO_API_KEY=${{ secrets.NEXT_PUBLIC_KAKAO_API_KEY }} \
+          --build-arg AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
+          --build-arg REACT_EDITOR=atom \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
           # 도커 이미지를 latest와 버전 태그로 ECR에 푸시
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
