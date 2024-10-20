@@ -30,6 +30,10 @@ jobs:
       - name: Build
         run: yarn run build
 
+      - name: Read version from package.json
+        id: get_version
+        run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_ENV
+
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         with:
@@ -41,13 +45,17 @@ jobs:
           ECR_REGISTRY=639578488701.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY=no-support/greeny
 
-          # latest 태그로 Docker 이미지 빌드
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          # package.json의 version 값 가져오기
+          IMAGE_TAG=${{ env.VERSION }}
+
+          # Docker 이미지를 latest와 버전 태그로 빌드
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
       - name: Push the Docker image to ECR
         run: |
           ECR_REGISTRY=639578488701.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY=no-support/greeny
 
-          # ECR에 latest 태그로 이미지 푸시
+          # 이미지를 latest와 버전 태그로 푸시
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.VERSION }}
