@@ -18,6 +18,7 @@ export default function LoginForm() {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<UserLoginForm>();
   const { alert } = useModal();
   const onSubmit = async (data: UserLoginForm) => {
@@ -26,13 +27,16 @@ export default function LoginForm() {
       formData.append('email', data.email);
       formData.append('password', data.password);
       await signInWithCredentials(formData);
-      await alert('Greeny오신걸 환영합니다! 🌿');
+      await alert('Greeny에 오신걸 환영합니다! 🌿');
       router.push('/');
     } catch (error) {
       console.error(error);
     }
   };
-
+  const handleSampleLogin = () => {
+    setValue('email', 'p1@plant.com');
+    setValue('password', '11111111');
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.input_container}>
@@ -68,6 +72,13 @@ export default function LoginForm() {
         />
         {errors.password && <p>{errors.password.message}</p>}
       </div>
+
+      <p className={styles.signupText}>
+        <label htmlFor="sample">
+          <input type="checkbox" name="sample" id="sample" onChange={handleSampleLogin} />
+          샘플 계정으로 로그인
+        </label>
+      </p>
 
       <p className={styles.signupText}>
         처음 방문이신가요? <Link href={'/signup'}>회원가입</Link>
