@@ -11,8 +11,7 @@ import photoAdd from '@images/PhotoAddIcon.svg';
 import { editUser } from '@/app/api/actions/userAction';
 import { signOut } from 'next-auth/react';
 import Input from '@/components/input/Input';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 const userFormSchema = z.object({
   name: z.string().min(2, '이름을 2글자 이상 입력하세요.'),

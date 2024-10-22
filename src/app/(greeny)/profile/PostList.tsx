@@ -3,8 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/button/Button';
 import { getPostsByUserId } from '@/app/api/fetch/postFetch';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export default async function PostList(id: string, isMe: boolean) {
   const postData = await getPostsByUserId(id);

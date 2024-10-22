@@ -15,8 +15,7 @@ import PostLayout from '@greeny/story/PostLayout';
 import { format } from 'date-fns';
 import { getPlantDetail } from '@/app/api/fetch/plantFetch';
 import { getBookmarksByUserId } from '@/app/api/fetch/userFetch';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export async function generateMetadata({ params: { id } }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
   const diary: DiaryRes = await fetchDiary(id);

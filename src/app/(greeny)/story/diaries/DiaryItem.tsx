@@ -4,13 +4,12 @@ import UserProfile from '@components/UserProfile';
 import { DiaryRes } from '@/types/post';
 import { formatAgo } from '@/utils/format';
 import Image from 'next/image';
+import { SERVER } from '@/constant';
 
 type Props = {
   diary: DiaryRes;
   onLikeClick?: () => void;
 };
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export default function DiaryItem({ diary, onLikeClick }: Props) {
   return (

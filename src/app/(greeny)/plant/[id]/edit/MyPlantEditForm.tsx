@@ -14,8 +14,7 @@ import { format } from 'date-fns';
 import { plantEdit } from '@/app/api/actions/plantAction';
 import useModal from '@/hooks/useModal';
 import { uploadImage } from '@/app/api/fetch/fileFetch';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export default function MyPlantEditForm({ item }: { item: PlantRes }) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(item.adoptionDate);

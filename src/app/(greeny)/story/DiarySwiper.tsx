@@ -6,8 +6,7 @@ import { DiaryRes } from '@/types/post';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export default function DiarySwiper({ diaries }: { diaries: DiaryRes[] }) {
   return (

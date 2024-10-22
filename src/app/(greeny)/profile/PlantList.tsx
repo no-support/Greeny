@@ -3,8 +3,7 @@ import Link from 'next/link';
 import PlantThumbnail from './PlantThumbnail';
 import Button from '@/components/button/Button';
 import { getPlantListBySellerId } from '@/app/api/fetch/plantFetch';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export default async function PlantList(id: string, isMe: boolean) {
   const plantListRes = await getPlantListBySellerId(id);
