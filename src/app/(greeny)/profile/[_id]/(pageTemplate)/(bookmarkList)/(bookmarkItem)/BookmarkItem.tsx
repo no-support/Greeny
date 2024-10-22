@@ -2,8 +2,7 @@ import styles from './BookmarkItem.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import NormalProfile from '@images/NormalProfile.svg';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 interface BookmarkItemProps {
   href: string;

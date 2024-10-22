@@ -4,8 +4,7 @@ import { ImageRes } from '@/types/image';
 import post from '@greeny/story/community/Post.module.scss';
 import Image from 'next/image';
 import CloseIcon from '@images/CloseIcon.svg';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 function ImageModal({ image, closeModal }: { image: ImageRes; closeModal: () => void }) {
   return (

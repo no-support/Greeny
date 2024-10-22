@@ -15,8 +15,7 @@ import { Session } from 'next-auth';
 import { plantsDelete } from '@/app/api/actions/plantAction';
 import { useRouter } from 'next/navigation';
 import useModal from '@/hooks/useModal';
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { SERVER, DBNAME } from '@/constant';
 
 export default function PlantDiray({ item, user }: { item: PlantRes; user: Session | null }) {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());

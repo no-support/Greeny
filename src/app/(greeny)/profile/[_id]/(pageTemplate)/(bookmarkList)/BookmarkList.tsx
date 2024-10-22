@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import FollowerDelete from '@images/FollowerDelete.svg';
+import { useRouter } from 'next/navigation';
 
 interface BookmarkListProps {
   isMe: boolean;
@@ -20,6 +21,7 @@ interface BookmarkListProps {
 }
 
 export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) {
+  const router = useRouter();
   const session = useSession();
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const queryClient = useQueryClient();
@@ -41,6 +43,13 @@ export default function BookmarkList({ isMe, userId, type }: BookmarkListProps) 
     onSuccess: () => {
       bookmarkQuery.refetch();
       setDeletingId(null);
+      /**
+       * NOTE: 내 프로파일 페이지에서 식물/식집사 페이지로 이동 및 북마크 삭제 후 뒤로 가기를 누르면
+       * 카운트가 줄지 않는 이슈 해결. 라우터 전체를 리프레시하는 게 효과적으로 보이진 않음.
+       * /profile에서 export const revalidate = 0; 및 export const dynamic = "force-dynamic"을 해도 적용되지 않아
+       * 아래 방법으로 해결
+       */
+      router.refresh();
     },
     onError: (error) => {
       console.log(error);

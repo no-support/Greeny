@@ -1,0 +1,40 @@
+@use '../../app/(greeny)/story/storyMixin';
+@import '@styles/mixin';
+
+.h1 {
+  margin-bottom: 3.5rem;
+  text-align: center;
+  @include storyMixin.heading_responsive;
+  font: {
+    size: clamp(1.8rem, 3.15vw, 3.2rem);
+    weight: var(--font-semibold);
+  }
+}
+
+// .h1 {
+//   font-weight: var(--font-bold);
+//   color: var(--color-primary);
+//   font-size: 3rem;
+//   transition: all 0.3s;
+
+//   @include mobile {
+//     font-size: 2rem;
+//   }
+// }
+
+// TODO
+.h2 {
+  color: red;
+}
+.h3 {
+  color: blue;
+}
+.h4 {
+  color: pink;
+}
+.h5 {
+  color: palegreen;
+}
+.h6 {
+  color: tomato;
+}

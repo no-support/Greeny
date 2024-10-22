@@ -7,8 +7,7 @@ import { auth } from '@/auth';
 import { differenceInDays } from 'date-fns';
 import { Metadata } from 'next';
 import { getAllPlants } from '@/app/api/fetch/plantFetch';
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
+import { SERVER } from '@/constant';
 
 export const metadata: Metadata = {
   title: 'Plant',

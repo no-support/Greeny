@@ -11,7 +11,7 @@ import Image from 'next/image';
 import plantEdit from '@images/PlantEdit.svg';
 import Link from 'next/link';
 import { getMyBookmarks } from '@/app/api/fetch/bookmarkFetch';
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export async function generateMetadata({ params }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
   const plantId = params.id;

@@ -1,8 +1,6 @@
+import { DBNAME, SERVER } from '@/constant';
 import { AddBookmarkRes, PlantBookmark, PostBookmark, Type, UserBookmark } from '@/types/bookmark';
 import { SingleItem, List, CoreSuccessRes } from '@/types/response';
-
-export const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-export const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export async function getMyBookmarks<T extends Type>(type: T, token: string): Promise<List<T extends 'user' ? UserBookmark : T extends 'product' ? PlantBookmark : PostBookmark>> {
   const url = `${SERVER}/bookmarks/${type}`;

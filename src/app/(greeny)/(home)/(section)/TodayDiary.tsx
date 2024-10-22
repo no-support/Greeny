@@ -5,8 +5,7 @@ import 'swiper/css';
 import Image from 'next/image';
 import { DiaryRes } from '@/types/post';
 import Link from 'next/link';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export default function TodayDiary({ data }: { data: DiaryRes[] }) {
   const diaryList = data.map((res, i) => {

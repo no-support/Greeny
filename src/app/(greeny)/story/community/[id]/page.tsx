@@ -10,10 +10,9 @@ import { Metadata, ResolvingMetadata } from 'next';
 import PostLayout from '@greeny/story/PostLayout';
 import ReplyContainer from '@greeny/story/community/ReplyContainer';
 import { getBookmarksByUserId } from '@/app/api/fetch/userFetch';
+import { SERVER } from '@/constant';
 
 export const revalidate = 0;
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export async function generateMetadata({ params: { id } }: { params: { id: string } }, parent: ResolvingMetadata): Promise<Metadata> {
   const post: PostRes = await fetchPost(id);

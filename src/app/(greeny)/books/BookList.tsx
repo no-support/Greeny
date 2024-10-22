@@ -8,6 +8,9 @@ import CardList from './CardList';
 import { useSearchParams } from 'next/navigation';
 
 export default function BookList() {
+  console.log('NEXT_PUBLIC_LIMIT: ', process.env.NEXT_PUBLIC_LIMIT);
+  console.log('NODE_ENV: ', process.env.NODE_ENV);
+  console.log('REACT_EDITOR: ', process.env.REACT_EDITOR);
   const { ref, inView } = useInView();
 
   const params = useSearchParams();

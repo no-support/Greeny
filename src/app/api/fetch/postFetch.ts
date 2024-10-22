@@ -1,10 +1,7 @@
 import { auth } from '@/auth';
+import { DBNAME, LIMIT, SERVER } from '@/constant';
 import { DiaryForm, DiaryRes, PostComment, PostRes } from '@/types/post';
 import { ApiResWithValidation, CoreErrorRes, CoreSuccessRes, MultiItem, SingleItem } from '@/types/response';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const LIMIT = process.env.NEXT_PUBLIC_LIMIT;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 async function getAuthHeader() {
   const session = await auth();

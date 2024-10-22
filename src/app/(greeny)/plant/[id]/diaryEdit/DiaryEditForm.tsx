@@ -16,7 +16,7 @@ import { DiaryEdit } from '@/app/api/actions/plantAction';
 import { useRouter } from 'next/navigation';
 import useModal from '@/hooks/useModal';
 import { ImageRes } from '@/types/image';
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 const selState: plantState[] = [{ plantState: '좋음' }, { plantState: '새싹' }, { plantState: '개화' }, { plantState: '아픔' }, { plantState: '죽음' }];
 const selAction: action[] = [{ action: '물주기' }, { action: '햇빛' }, { action: '분갈이' }, { action: '영양' }, { action: '가지' }, { action: '관찰' }];

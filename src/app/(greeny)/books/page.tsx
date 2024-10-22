@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import Spinner from '@/components/spinner/Spinner';
 
 export default function Page() {
+  console.log('serverside - REACT_EDITOR: ', process.env.REACT_EDITOR);
   return (
     <div className={styles.page_container}>
       <div className={styles.search_container}>

@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Form } from '@greeny/story/community/PostForm';
 import useModal from '@/hooks/useModal';
 import PhotoDeleteIcon from '@images/PhotoDeleteIcon.svg';
+import { SERVER } from '@/constant';
 
 type Props = {
   originalImage: ImageRes[];
@@ -16,8 +17,6 @@ type Props = {
   register: UseFormRegister<Form>;
   setFile: (currentAddedFile: File[]) => void;
 };
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export default function PostImage({ register, originalImage, setOriginalImage, setFile }: Props) {
   const originalImagePath = originalImage.map((img) => `${SERVER}${img.path}`);

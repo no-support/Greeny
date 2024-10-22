@@ -2,14 +2,13 @@ import styles from '@greeny/story/Community.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { UserSimple } from '@/types/user';
+import { SERVER } from '@/constant';
 
 type Props = {
   user: UserSimple;
   fontStyle: 'sm_regular' | 'sm_medium' | 'md_semibold';
   component?: React.ReactNode;
 };
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
 
 export default function UserProfile({ user, fontStyle, component }: Props) {
   return (

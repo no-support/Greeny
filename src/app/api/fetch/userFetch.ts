@@ -1,9 +1,7 @@
+import { DBNAME, SERVER } from '@/constant';
 import { Bookmark } from '@/types/bookmark';
 import { ApiResWithValidation, SingleItem } from '@/types/response';
 import { UserData, UserForm, UserInfo } from '@/types/user';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export async function fetchAccessToken(refreshToken: string) {
   const url = `${SERVER}/auth/refresh`;

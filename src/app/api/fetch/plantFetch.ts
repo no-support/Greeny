@@ -1,8 +1,6 @@
+import { DBNAME, SERVER } from '@/constant';
 import { PlantJson, PlantListRes, PlantRes, TParams } from '@/types/plant';
 import { CoreSuccessRes, MultiItem, SingleItem } from '@/types/response';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
 
 export async function getPlantListBySellerId(sellerId: string): Promise<MultiItem<PlantListRes>> {
   const url = `${SERVER}/products?seller_id=${sellerId}`;

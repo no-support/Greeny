@@ -6,8 +6,7 @@ import NormalProfile from '@images/NormalProfile.svg';
 import { CoreErrorRes, SingleItem } from '@/types/response';
 import { UserInfo } from '@/types/user';
 import clsx from 'clsx';
-
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
+import { SERVER } from '@/constant';
 
 export default function Profile({ userInfo, userId, isMovable = false }: { userInfo: SingleItem<UserInfo> | CoreErrorRes; userId: string; isMovable?: boolean }) {
   return (

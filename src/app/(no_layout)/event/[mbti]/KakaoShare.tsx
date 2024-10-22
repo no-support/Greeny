@@ -4,6 +4,7 @@ import styles from './KakaoShare.module.scss';
 import { useEffect } from 'react';
 import kakao from '@images/Social_KaKao.svg';
 import resultData from '@/app/data/resultList';
+import { DBNAME, KAKAO_API_KEY, SERVER } from '@/constant';
 
 declare global {
   interface Window {
@@ -11,13 +12,10 @@ declare global {
   }
 }
 
-const DBNAME = process.env.NEXT_PUBLIC_DB_NAME;
-const SERVER = process.env.NEXT_PUBLIC_API_SERVER;
-
 export default function KakaoShare({ mbti }: { mbti: string }) {
   useEffect(() => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+      window.Kakao.init(KAKAO_API_KEY);
     }
   }, []);
 

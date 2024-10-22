@@ -1,8 +1,7 @@
 import { MultiItem } from '@/types/response';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import isEqual from 'lodash.isequal';
-
-const LIMIT = process.env.NEXT_PUBLIC_LIMIT;
+import { LIMIT } from '@/constant';
 
 const initialData: MultiItem<any> = {
   ok: 1,
